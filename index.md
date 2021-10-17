@@ -1,7 +1,7 @@
 ## Welcome to My Pages
 
 
-[Link to another page](./cayman.html).
+[Link to Cayman help](./cayman.html).
 
 You can use the [editor on GitHub](https://github.com/lilws/lilws.github.io/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
