@@ -1,4 +1,6 @@
-## Welcome to My [Pages](./index.html)
+## Welcome to My Pages
+
+[Back](./index.html)
 
 You can use the [editor on GitHub](https://github.com/lilws/lilws.github.io/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
