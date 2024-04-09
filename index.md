@@ -47,6 +47,34 @@
 
 #### **Lớp 4**
 
+[Bài 1: Phần cứng và phần mềm máy tính](https://www.canva.com/design/DAGB72V2Xtg/hR_6sYRFW4XDZlkYfC4xEQ/edit?utm_content=DAGB72V2Xtg&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+[Bài 2: Gõ bàn phím đúng cách](https://www.canva.com/design/DAGB78rVqSg/9n2prlhieqJlwvo1HVEmww/edit?utm_content=DAGB78rVqSg&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+[Bài 3: Thông tin trên trang web](https://www.canva.com/design/DAGB74q7hBU/iHuRoj-Q-19uTgwKLJvyXw/edit?utm_content=DAGB74q7hBU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+[Bài 4: Tìm kiếm thông tin trên Internet](https://www.canva.com/design/DAGB745hxic/C91fzq9480raZoCam2sQzA/edit?utm_content=DAGB745hxic&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+[Bài 5: Thao tác với thư mục, tệp](https://www.canva.com/design/DAGB76kDCYM/NkMU95cGmxN_u2XnEB3e_A/edit?utm_content=DAGB76kDCYM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+[Bài 6: Sử dụng phần mềm khi được phép](https://www.canva.com/design/DAGB77ahrX8/3ZehswRGZ8Q-aUohqj4jHQ/edit?utm_content=DAGB77ahrX8&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+[Bài 7: Soạn thảo văn bản tiếng Việt](https://www.canva.com/design/DAGB723C4Ak/SzIjTslzzMTL11Bql-GPAA/edit?utm_content=DAGB723C4Ak&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+[Bài 8: Chèn hình ảnh, sao chép, di chuyển, xoá văn bản](https://www.canva.com/design/DAGB7-SMjH4/6nmuND1G7-tT6qf2EwIkqA/edit?utm_content=DAGB7-SMjH4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+[Bài 9: Bài trình chiếu của em ](https://www.canva.com/design/DAGB7-ygzAs/J2_RzcXo7nosFueozcefpg/edit?utm_content=DAGB7-ygzAs&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+[Bài 10: Định dạng, tạo hiệu ứng cho trang chiếu](https://www.canva.com/design/DAGB70C-ZyI/kPAbfSrfoHV1keHQy-OLnQ/edit?utm_content=DAGB70C-ZyI&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+[Bài 11B: Thực hành luyện tập gõ bàn phím](https://www.canva.com/design/DAGB789ag1U/ArxIsQMv_xg3bCWVLzxlug/edit?utm_content=DAGB789ag1U&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+[Bài 12: Làm quen với Scratch](https://www.canva.com/design/DAGB7y-hC3k/XPqGJ1BX1OLLtFY4wr9QpA/edit?utm_content=DAGB7y-hC3k&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+[Bài 13: Tạo chương trình máy tính để kể chuyện](https://www.canva.com/design/DAGB794THTw/4cG4iP0V38IINCxDWbYMGA/edit?utm_content=DAGB794THTw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+[Bài 14: Điều khiển nhân vật chuyển động trên sân khấu](https://www.canva.com/design/DAGB7xybjQI/S9tkqwXPcCy-FLlBZqKUKw/edit?utm_content=DAGB7xybjQI&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
 ### **Bài học**
 [MS Powerpoint cơ bản](https://prezi.com/p/6wbqyofibprw)
 
