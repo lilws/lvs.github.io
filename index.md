@@ -22,29 +22,28 @@
 
 [Bài 6 - Xem Tin và Giải trí trên Internet - Tiet 1](https://www.canva.com/design/DAGB7r_vICk/xdiYr1qU-H1xJiPSBJfR-g/edit?utm_content=DAGB7r_vICk&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
-<!--
-[Bài 6 - Xem Tin và Giải trí trên Internet - Tiet 2]()
+[Bài 6 - Xem Tin và Giải trí trên Internet - Tiet 2](https://www.canva.com/design/DAGB74PuSa4/-g_t4d0GF0PYOxExHRwQpg/edit?utm_content=DAGB74PuSa4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
-[Bài 7 - Sắp xếp để dễ tìm - Tiết 1, 2]()
+[Bài 7 - Sắp xếp để dễ tìm - Tiết 1, 2](https://www.canva.com/design/DAGB78jqMvo/mmYoOjUzYgAdsQvvpVEjFA/edit?utm_content=DAGB78jqMvo&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
-[Bai 8 - Làm quen với thư mục]()
+[Bai 8 - Làm quen với thư mục](https://www.canva.com/design/DAGB78W9lto/qC3axhba0d-zF646Uvyevg/edit?utm_content=DAGB78W9lto&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
-[Bài 9 - Lưu trữ Trao đổi - Tiết 1, 2]()
+[Bài 9 - Lưu trữ Trao đổi - Tiết 1, 2](https://www.canva.com/design/DAGB7zDw4no/LX4MFMhw4YpX7MuigyE9XA/edit?utm_content=DAGB7zDw4no&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
-[Bài 10 - Trang trình chiếu của em]()
+[Bài 10 - Trang trình chiếu của em](https://www.canva.com/design/DAGB7oJl34k/4dQTRhCM5Zq7sxJScO13kg/edit?utm_content=DAGB7oJl34k&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
-[Bai 11A - He mat troi]()
+[Bai 11A - He mat troi](https://www.canva.com/design/DAGB77gys48/51j4vKkGloHzoK8KcnALQw/edit?utm_content=DAGB77gys48&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
-[Bài 11B. Luyện tập sử dụng chuột máy tính]()
+[Bài 11B. Luyện tập sử dụng chuột máy tính](https://www.canva.com/design/DAGB7idjzi4/J3yuoacsPoW6VHSknoD_Iw/edit?utm_content=DAGB7idjzi4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
-[Bai 12 - Thuc hien cong viec theo cac buoc]()
+[Bai 12 - Thuc hien cong viec theo cac buoc](https://www.canva.com/design/DAGB7lkvIV4/voRd9yia1c-ypnMMkgq0sg/edit?utm_content=DAGB7lkvIV4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
-[Bài 13 - Chia việc lớn thành việc nhỏ để giải quyết]()
+[Bài 13 - Chia việc lớn thành việc nhỏ để giải quyết](https://www.canva.com/design/DAGB7waDPaM/KIk5fVT6uMRSDYhY4wIdFw/edit?utm_content=DAGB7waDPaM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
-[Bai 14 - Thuc hien cong viec theo dieu kien]()
+[Bai 14 - Thuc hien cong viec theo dieu kien](https://www.canva.com/design/DAGB75N6gQ0/Gg7e8LlwUeEAbvtWlm-Jvg/edit?utm_content=DAGB75N6gQ0&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
-[Bai 15 - Nhiem vu cua em va su tro giup cua may tinh]()
--->
+[Bai 15 - Nhiem vu cua em va su tro giup cua may tinh](https://www.canva.com/design/DAGB730eJ-E/_dWOLjVMBt2k-nLH6VI0yg/edit?utm_content=DAGB730eJ-E&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
 
 #### **Lớp 4**
 
