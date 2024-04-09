@@ -2,8 +2,8 @@
 
 ### Tin học
 
-Powerpoint cơ bản - Lớp 3
-https://prezi.com/p/6wbqyofibprw
+[Powerpoint cơ bản - Lớp 3]
+(https://prezi.com/p/6wbqyofibprw)
 
 Powerpoint nâng cao - Lớp 4
 https://prezi.com/p/8ljt-sgxr8sa
@@ -20,13 +20,12 @@ https://prezi.com/p/oguhmdk5cbqo
 Bài 1. Thông tin và quyết định - Lớp 3
 https://www.canva.com/design/DAFLgBSirCE/CVs9oy9_QCIgY5VTCTEqAQ/edit?utm=
 
+
+### Bài học khác
+
 [Bai25](./Bai25/index.html)
 
 [TNXH](./TNXH/index.html)
-
-
-
-
 
 ### Reference
 
