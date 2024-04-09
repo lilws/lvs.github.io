@@ -6,7 +6,7 @@
 
 [Bài 1. Thông tin và quyết định](https://www.canva.com/design/DAFLgBSirCE/CVs9oy9_QCIgY5VTCTEqAQ/edit?utm=)
 
-[Bai 2 - Xu ly thong tin](https://www.canva.com/design/DAGB7lqurLw/_SWBnjT3jeSpoiluBFLYrg/edit?utm_content=DAGB7lqurLw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+[Bai 2 - Xử lý thông tin](https://www.canva.com/design/DAGB7lqurLw/_SWBnjT3jeSpoiluBFLYrg/edit?utm_content=DAGB7lqurLw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
 [Bài 3: Máy tính – những người bạn mới](https://www.canva.com/design/DAGB7vy_y_o/ieKnExASRpSUbouMcAMUNw/edit?utm_content=DAGB7vy_y_o&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
