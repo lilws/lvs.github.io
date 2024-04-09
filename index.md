@@ -18,7 +18,7 @@
 [Powerpoint nâng cao](https://prezi.com/p/8ljt-sgxr8sa)
 
 
-### Bài học khác
+### [Bài học khác](thlevansi.thuvien.hcm.edu.vn)
 <!-- 
 
 
