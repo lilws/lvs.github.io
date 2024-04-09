@@ -17,8 +17,12 @@
 #### Lớp 4
 [Powerpoint nâng cao](https://prezi.com/p/8ljt-sgxr8sa)
 
+## Phần mềm
+[RapidTyping 5](https://rapidtyping.com/downloads.html)
 
-### [Bài học khác](http://thlevansi.thuvien.hcm.edu.vn)
+[Scratch](https://scratch.mit.edu/download)
+
+### [Thư viện](http://thlevansi.thuvien.hcm.edu.vn)
 <!-- 
 
 
