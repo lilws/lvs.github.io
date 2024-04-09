@@ -3,9 +3,9 @@
 ### Tin học
 
 #### Lớp 3
-[Powerpoint cơ bản](https://prezi.com/p/6wbqyofibprw)
+[MS Powerpoint cơ bản](https://prezi.com/p/6wbqyofibprw)
 
-[MSWord cơ bản](https://prezi.com/p/a8h5hagcqzl3)
+[MS Word cơ bản](https://prezi.com/p/a8h5hagcqzl3)
 
 [HD lưu-mở văn bản](https://prezi.com/p/g592fzacsp3w)
 
@@ -15,7 +15,7 @@
 
 
 #### Lớp 4
-[Powerpoint nâng cao](https://prezi.com/p/8ljt-sgxr8sa)
+[MS Powerpoint nâng cao](https://prezi.com/p/8ljt-sgxr8sa)
 
 ## Phần mềm
 [RapidTyping 5](https://rapidtyping.com/downloads.html)
