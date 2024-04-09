@@ -32,17 +32,17 @@
 
 [Bài 10 - Trang trình chiếu của em](https://www.canva.com/design/DAGB7oJl34k/4dQTRhCM5Zq7sxJScO13kg/edit?utm_content=DAGB7oJl34k&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
-[Bai 11A - He mat troi](https://www.canva.com/design/DAGB77gys48/51j4vKkGloHzoK8KcnALQw/edit?utm_content=DAGB77gys48&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+[Bai 11A - Hệ mặt trời](https://www.canva.com/design/DAGB77gys48/51j4vKkGloHzoK8KcnALQw/edit?utm_content=DAGB77gys48&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
 [Bài 11B. Luyện tập sử dụng chuột máy tính](https://www.canva.com/design/DAGB7idjzi4/J3yuoacsPoW6VHSknoD_Iw/edit?utm_content=DAGB7idjzi4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
-[Bai 12 - Thuc hien cong viec theo cac buoc](https://www.canva.com/design/DAGB7lkvIV4/voRd9yia1c-ypnMMkgq0sg/edit?utm_content=DAGB7lkvIV4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+[Bai 12 - Thực hiện công việc theo các bước](https://www.canva.com/design/DAGB7lkvIV4/voRd9yia1c-ypnMMkgq0sg/edit?utm_content=DAGB7lkvIV4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
 [Bài 13 - Chia việc lớn thành việc nhỏ để giải quyết](https://www.canva.com/design/DAGB7waDPaM/KIk5fVT6uMRSDYhY4wIdFw/edit?utm_content=DAGB7waDPaM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
-[Bai 14 - Thuc hien cong viec theo dieu kien](https://www.canva.com/design/DAGB75N6gQ0/Gg7e8LlwUeEAbvtWlm-Jvg/edit?utm_content=DAGB75N6gQ0&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+[Bai 14 - Thực hiện công việc theo điều kiện](https://www.canva.com/design/DAGB75N6gQ0/Gg7e8LlwUeEAbvtWlm-Jvg/edit?utm_content=DAGB75N6gQ0&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
-[Bai 15 - Nhiem vu cua em va su tro giup cua may tinh](https://www.canva.com/design/DAGB730eJ-E/_dWOLjVMBt2k-nLH6VI0yg/edit?utm_content=DAGB730eJ-E&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+[Bai 15 - Nhiệm vụ của em và sự trợ giúp của máy tính](https://www.canva.com/design/DAGB730eJ-E/_dWOLjVMBt2k-nLH6VI0yg/edit?utm_content=DAGB730eJ-E&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
 
 #### **Lớp 4**
