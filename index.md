@@ -1,8 +1,8 @@
-## Trường Tiểu học Lê Văn Sĩ
+## **Trường Tiểu học Lê Văn Sĩ**
 
-### Tin học
+## **Tin học**
 
-#### Lớp 3
+#### **Lớp 3**
 [MS Powerpoint cơ bản](https://prezi.com/p/6wbqyofibprw)
 
 [MS Word cơ bản](https://prezi.com/p/a8h5hagcqzl3)
@@ -14,7 +14,7 @@
 [Bài 1. Thông tin và quyết định](https://www.canva.com/design/DAFLgBSirCE/CVs9oy9_QCIgY5VTCTEqAQ/edit?utm=)
 
 
-#### Lớp 4
+#### **Lớp 4**
 [MS Powerpoint nâng cao](https://prezi.com/p/8ljt-sgxr8sa)
 
 ## Phần mềm
