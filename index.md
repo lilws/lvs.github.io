@@ -21,6 +21,7 @@
 [Bài 5 - Tập gõ bàn phím - Tiết 4](https://www.canva.com/design/DAGB7tCSmcw/jh8_dYbzFLW4JhqmvGmvpQ/edit?utm_content=DAGB7tCSmcw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
 [Bài 6 - Xem Tin và Giải trí trên Internet - Tiet 1](https://www.canva.com/design/DAGB7r_vICk/xdiYr1qU-H1xJiPSBJfR-g/edit?utm_content=DAGB7r_vICk&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
 <!--
 [Bài 6 - Xem Tin và Giải trí trên Internet - Tiet 2]()
 
