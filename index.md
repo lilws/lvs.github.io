@@ -17,7 +17,7 @@
 #### **Lớp 4**
 [MS Powerpoint nâng cao](https://prezi.com/p/8ljt-sgxr8sa)
 
-## Phần mềm
+## **Phần mềm**
 [RapidTyping 5](https://rapidtyping.com/downloads.html)
 
 [Scratch](https://scratch.mit.edu/download)
