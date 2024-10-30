@@ -2,6 +2,8 @@
 
 ## **Tin học**
 
+## **[Bài giảng số](https://lilw.dev){:target="_blank" rel="noopener"}** - 2024
+
 | Lớp 3 | Lớp 4 | Lớp 5 |
 | --------- | --------- | --------- |
 | [Bài 1. Thông tin và quyết định](https://www.canva.com/design/DAFLgBSirCE/KDoDF4cICiE9xMrt0v0Rlg/view){:target="_blank" rel="noopener"} | [Bài 1: Phần cứng và phần mềm máy tính](https://www.canva.com/design/DAGB72V2Xtg/hR_6sYRFW4XDZlkYfC4xEQ/edit?utm_content=DAGB72V2Xtg&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton){:target="_blank" rel="noopener"} | [Bài 1: Máy tính có thể giúp em làm những việc gì?](){:target="_blank" rel="noopener"} |
