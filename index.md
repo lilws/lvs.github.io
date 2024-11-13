@@ -1,4 +1,4 @@
-## **[Tin học by Phong Do](https://lvs.lilw.dev)**
+## **[Slide](https://lvs.lilw.dev)**
 
 
 ### **Bài học**
