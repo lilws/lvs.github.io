@@ -1,6 +1,6 @@
 ## **Trường Tiểu học Lê Văn Sĩ**
 
-## **Tin học**
+## **[Tin học](https://lvs.lilw.dev)**
 
 ### **Bài học**
 [MS Powerpoint cơ bản](https://prezi.com/p/6wbqyofibprw){:target="_blank" rel="noopener"}
