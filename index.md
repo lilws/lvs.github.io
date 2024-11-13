@@ -1,7 +1,7 @@
 <!-- ### Trường Tiểu học Lê Văn Sĩ -->
 
 
-### **[Slide](https://lvs.lilw.dev)**
+## **[Bài giảng](https://lvs.lilw.dev)**
 
 ### **Bài học**
 [MS Powerpoint cơ bản](https://prezi.com/p/6wbqyofibprw){:target="_blank" rel="noopener"}
@@ -20,16 +20,3 @@
 [Scratch](https://scratch.mit.edu/download){:target="_blank" rel="noopener"}
 
 ### [Thư viện](http://thlevansi.thuvien.hcm.edu.vn){:target="_blank" rel="noopener"}
-<!-- 
-
-
-[Bai25](./Bai25/index.html)
-
-[TNXH](./TNXH/index.html)
-
-### Reference
-
-[Link to Cayman help](./cayman.html).
-
-[Link to Github help](./github_help.html).
--->
