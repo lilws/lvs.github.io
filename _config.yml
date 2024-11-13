@@ -6,5 +6,5 @@ description: Tin học
 github:
   owner_name: Phong Do
   repository_name: LVS
-  site.github.owner_url: "#"
-  site.github.repository_url: "#"
+  owner_url: "#"
+  repository_url: "#"
