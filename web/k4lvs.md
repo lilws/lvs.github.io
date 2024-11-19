@@ -4,4 +4,4 @@ CTST
 
 ICDL
 
-[T1-8](https://quizizz.com/join?gc=35373568)
+[T1-8](https://quizizz.com/join?gc=35373568) - Thực hiên 2 lần
