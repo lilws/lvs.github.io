@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 
 ### [Môn Toán](https://ul.lilw.dev/hab9){:target="_blank" rel="noopener"}
 
