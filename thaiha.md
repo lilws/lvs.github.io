@@ -1,6 +1,4 @@
----
-layout: default
----
+## Trường Tiểu học Lê Văn Sĩ
 
 
 ### [Môn Toán](https://ul.lilw.dev/hab9){:target="_blank" rel="noopener"}
