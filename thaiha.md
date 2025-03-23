@@ -1,6 +1,7 @@
 ---
 title: "Trường Tiểu học Lê Văn Sĩ"
 description: "Ngô Thái Hà"
+custom_owner: "Ngô Thái Hà"
 ---
 
 
