@@ -5,16 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Kế hoạch Dạy học Tin học</title>
     <!-- Chosen Palette: Calm Neutrals (Background: Slate 100, Cards: White, Primary Accent: Sky 600, Chart Colors: Tailwind 500 series) -->
-    <!-- Application Structure Plan: The application is simplified to a tab-based layout. The left column is now dedicated to a single purpose: data visualization (donut chart showing percentage distribution) with a custom HTML legend for better text wrapping. The right column displays the full, chronologically sorted lesson plan, grouped by topic. This structure removes filtering complexity and presents the information in a clear, linear, and easy-to-read format. -->
+    <!-- Application Structure Plan: The application is simplified to a tab-based layout. The left column is now dedicated to a single purpose: data visualization (donut chart showing percentage distribution) with a custom HTML legend for better text wrapping. The right column displays the full, chronologically sorted lesson plan, grouped by topic, without a scrollbar. An "Expand All" button has been added to improve usability by allowing users to see all details at once. The left column is made sticky to prevent aesthetic issues with long content on the right. -->
     <!-- Visualization & Content Choices: 
-        - Report Info: Official ICT Curriculum for Grades 3, 4, 5. Goal: Provide a clear, chronologically accurate overview with percentage-based analytics and readable chart legends.
+        - Report Info: Official ICT Curriculum for Grades 3, 4, 5. Goal: Provide a clear, chronologically accurate overview with percentage-based analytics and readable chart legends, plus bulk-expansion of details.
         - Viz/Presentation Method: 
             1. Donut Chart (Chart.js/Canvas) per grade, configured to use a custom-generated HTML legend to handle long text labels gracefully. Tooltips show percentages.
             2. Statically Grouped Lesson Cards (HTML/CSS/JS), sorted by week number to ensure chronological accuracy.
         - Interaction: 
             1. Tabs switch between grades, updating both the chart and the lesson list.
-            2. Lesson cards remain expandable to show detailed competency information.
-        - Justification: This revised structure is direct and clean. The custom HTML legend solves the text-wrapping problem, and the chronological sorting of lessons addresses a key user requirement for accuracy.
+            2. An "Expand All" / "Collapse All" toggle button now controls the visibility of all NLS details within the active grade's lesson list.
+            3. Individual lesson cards remain expandable.
+        - Justification: The "Expand All" feature and removal of the scrollbar provide a comprehensive, printable view. Making the left column sticky solves the layout stretching problem, which is a significant UI improvement.
         - Library/Method: Chart.js for charts, Vanilla JS for tab navigation and all DOM manipulations.
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
@@ -72,6 +73,15 @@
         .topic-heading:first-child {
             margin-top: 0;
         }
+        .sticky-aside {
+            position: sticky;
+            top: 2rem;
+            align-self: start;
+        }
+        .lesson-card.is-assessment {
+            background-color: #fef2f2; /* red-50 */
+            border-left-color: #f87171; /* red-400 */
+        }
     </style>
 </head>
 <body class="text-slate-800">
@@ -93,46 +103,61 @@
         <main id="main-content">
             <!-- Grade 3 Content -->
             <div id="grade-3-content" class="tab-content grid-cols-1 lg:grid-cols-3 gap-8">
-                <aside class="lg:col-span-1 bg-white p-6 rounded-2xl shadow-lg">
-                    <h2 class="text-2xl font-bold mb-4 text-slate-800">Phân Bổ Thời Lượng (Khối 3)</h2>
-                    <div class="chart-container relative h-64 w-full max-w-sm mx-auto mb-4">
-                        <canvas id="topicChart3"></canvas>
+                <aside class="lg:col-span-1 sticky-aside">
+                    <div class="bg-white p-6 rounded-2xl shadow-lg">
+                        <h2 class="text-2xl font-bold mb-4 text-slate-800">Phân bổ thời lượng (Khối 3)</h2>
+                        <div class="chart-container relative h-64 w-full max-w-sm mx-auto mb-4">
+                            <canvas id="topicChart3"></canvas>
+                        </div>
+                        <div id="chart-legend-3" class="space-y-2"></div>
                     </div>
-                    <div id="chart-legend-3" class="space-y-2"></div>
                 </aside>
                 <section class="lg:col-span-2">
-                    <h2 id="plan-title-3" class="text-2xl font-bold mb-4 text-slate-800">Kế hoạch Chi Tiết Khối 3</h2>
-                    <div id="lesson-plan-container-3" class="space-y-3 max-h-[70vh] overflow-y-auto pr-2"></div>
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 id="plan-title-3" class="text-2xl font-bold text-slate-800">Kế hoạch chi tiết khối 3</h2>
+                        <button class="expand-all-btn bg-sky-100 text-sky-700 text-sm font-semibold px-4 py-1 rounded-full hover:bg-sky-200 transition">Xem đầy đủ</button>
+                    </div>
+                    <div id="lesson-plan-container-3" class="space-y-3 pr-2"></div>
                 </section>
             </div>
 
             <!-- Grade 4 Content -->
             <div id="grade-4-content" class="tab-content grid-cols-1 lg:grid-cols-3 gap-8">
-                <aside class="lg:col-span-1 bg-white p-6 rounded-2xl shadow-lg">
-                    <h2 class="text-2xl font-bold mb-4 text-slate-800">Phân Bổ Thời Lượng (Khối 4)</h2>
-                    <div class="chart-container relative h-64 w-full max-w-sm mx-auto mb-4">
-                        <canvas id="topicChart4"></canvas>
+                <aside class="lg:col-span-1 sticky-aside">
+                    <div class="bg-white p-6 rounded-2xl shadow-lg">
+                        <h2 class="text-2xl font-bold mb-4 text-slate-800">Phân bổ thời lượng (Khối 4)</h2>
+                        <div class="chart-container relative h-64 w-full max-w-sm mx-auto mb-4">
+                            <canvas id="topicChart4"></canvas>
+                        </div>
+                        <div id="chart-legend-4" class="space-y-2"></div>
                     </div>
-                    <div id="chart-legend-4" class="space-y-2"></div>
                 </aside>
                 <section class="lg:col-span-2">
-                     <h2 id="plan-title-4" class="text-2xl font-bold mb-4 text-slate-800">Kế hoạch Chi Tiết Khối 4</h2>
-                    <div id="lesson-plan-container-4" class="space-y-3 max-h-[70vh] overflow-y-auto pr-2"></div>
+                     <div class="flex justify-between items-center mb-4">
+                        <h2 id="plan-title-4" class="text-2xl font-bold text-slate-800">Kế hoạch chi tiết khối 4</h2>
+                        <button class="expand-all-btn bg-sky-100 text-sky-700 text-sm font-semibold px-4 py-1 rounded-full hover:bg-sky-200 transition">Xem đầy đủ</button>
+                    </div>
+                    <div id="lesson-plan-container-4" class="space-y-3 pr-2"></div>
                 </section>
             </div>
 
             <!-- Grade 5 Content -->
             <div id="grade-5-content" class="tab-content grid-cols-1 lg:grid-cols-3 gap-8">
-                <aside class="lg:col-span-1 bg-white p-6 rounded-2xl shadow-lg">
-                    <h2 class="text-2xl font-bold mb-4 text-slate-800">Phân Bổ Thời Lượng (Khối 5)</h2>
-                    <div class="chart-container relative h-64 w-full max-w-sm mx-auto mb-4">
-                        <canvas id="topicChart5"></canvas>
+                <aside class="lg:col-span-1 sticky-aside">
+                    <div class="bg-white p-6 rounded-2xl shadow-lg">
+                        <h2 class="text-2xl font-bold mb-4 text-slate-800">Phân bổ thời lượng (Khối 5)</h2>
+                        <div class="chart-container relative h-64 w-full max-w-sm mx-auto mb-4">
+                            <canvas id="topicChart5"></canvas>
+                        </div>
+                        <div id="chart-legend-5" class="space-y-2"></div>
                     </div>
-                    <div id="chart-legend-5" class="space-y-2"></div>
                 </aside>
                 <section class="lg:col-span-2">
-                    <h2 id="plan-title-5" class="text-2xl font-bold mb-4 text-slate-800">Kế hoạch Chi Tiết Khối 5</h2>
-                    <div id="lesson-plan-container-5" class="space-y-3 max-h-[70vh] overflow-y-auto pr-2"></div>
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 id="plan-title-5" class="text-2xl font-bold text-slate-800">Kế hoạch chi tiết khối 5</h2>
+                        <button class="expand-all-btn bg-sky-100 text-sky-700 text-sm font-semibold px-4 py-1 rounded-full hover:bg-sky-200 transition">Xem đầy đủ</button>
+                    </div>
+                    <div id="lesson-plan-container-5" class="space-y-3 pr-2"></div>
                 </section>
             </div>
         </main>
@@ -190,14 +215,14 @@
                     { week: "8, 9", month: 10, topic: "Chủ đề C: Tổ chức lưu trữ, tìm kiếm và trao đổi thông tin", name: "Bài 5: Thao tác với thư mục, tệp", periods: 2, competencyCode: "2.3.L3-L4-L5.a" },
                     { week: 10, month: 11, topic: "Chủ đề D: Đạo đức, pháp luật và văn hoá trong môi trường số", name: "Bài 6: Sử dụng phần mềm khi được phép", periods: 1, competencyCode: "4.3.L3-L4-L5.a" },
                     { week: "11-13", month: 11, topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 7: Soạn thảo văn bản tiếng Việt", periods: 3, competencyCode: "4.1.L3-L4-L5.a" },
-                    { week: "14-16", month: 12, topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 8: Chèn hình ảnh, sao chép, di chuyển...", periods: 3, competencyCode: "4.1.L3-L4-L5.a" },
+                    { week: "14-16", month: 12, topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 8: Chèn hình ảnh, sao chép, di chuyển văn bản", periods: 3, competencyCode: "4.1.L3-L4-L5.a" },
                     { week: "17, 18", month: "12, 1", topic: "Đánh giá", name: "Ôn tập & Kiểm tra cuối kỳ 1", periods: 2, competencyCode: "" },
                     { week: "19, 20", month: 1, topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 9: Bài trình chiếu của em", periods: 2, competencyCode: "4.1.L3-L4-L5.a" },
-                    { week: "21, 22", month: 2, topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 10: Định dạng, tạo hiệu ứng...", periods: 2, competencyCode: "4.2.L3-L4-L5.a" },
+                    { week: "21, 22", month: 2, topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 10: Định dạng, tạo hiệu ứng cho trang trình chiếu", periods: 2, competencyCode: "4.2.L3-L4-L5.a" },
                     { week: "23-25", month: "2, 3", topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 11B: Thực hành luyện tập gõ bàn phím", periods: 3, competencyCode: "5.1.L3-L4-L5.a" },
                     { week: "26, 27", month: 3, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 12: Làm quen với Scratch", periods: 2, competencyCode: "6.3.L3-L4-L5.a" },
                     { week: "28-30", month: 3, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 13: Tạo chương trình máy tính để kể chuyện", periods: 3, competencyCode: "4.1.L3-L4-L5.b" },
-                    { week: "31-33", month: 4, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 14: Điều khiển nhân vật chuyển động...", periods: 3, competencyCode: "4.1.L3-L4-L5.b" },
+                    { week: "31-33", month: 4, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 14: Điều khiển nhân vật chuyển động trên sân khấu", periods: 3, competencyCode: "4.1.L3-L4-L5.b" },
                     { week: "34, 35", month: 5, topic: "Đánh giá", name: "Ôn tập & Kiểm tra cuối kỳ 2", periods: 2, competencyCode: "" }
                 ]
             },
@@ -262,7 +287,13 @@
                 }
 
                 const card = document.createElement('div');
-                card.className = 'lesson-card bg-white p-4 rounded-lg shadow-md border-l-4 border-sky-500';
+                card.className = 'lesson-card bg-white p-4 rounded-lg shadow-md border-l-4';
+                
+                if (lesson.name.includes('Ôn tập & Kiểm tra')) {
+                    card.classList.add('is-assessment');
+                } else {
+                    card.classList.add('border-sky-500');
+                }
                 
                 const competencyText = getFullCompetencyText(lesson.competencyCode);
 
@@ -389,6 +420,28 @@
                 btn.classList.toggle('active', btn.dataset.grade === grade);
             });
         }
+        
+        function initializeExpandAllButtons() {
+            let isAllExpanded = false;
+            document.querySelectorAll('.expand-all-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    isAllExpanded = !isAllExpanded;
+                    
+                    document.querySelectorAll('.details').forEach(detail => {
+                         if (isAllExpanded) {
+                            detail.classList.add('open');
+                        } else {
+                            detail.classList.remove('open');
+                        }
+                    });
+
+                    document.querySelectorAll('.expand-all-btn').forEach(btn => {
+                        btn.textContent = isAllExpanded ? 'Thu gọn' : 'Xem đầy đủ';
+                        btn.dataset.expanded = isAllExpanded;
+                    });
+                });
+            });
+        }
 
         function initializeDashboard() {
             ['3', '4', '5'].forEach(grade => {
@@ -396,6 +449,7 @@
                 renderChart(grade);
             });
             setActiveGrade('3');
+            initializeExpandAllButtons();
         }
 
         gradeNav.addEventListener('click', (e) => {
