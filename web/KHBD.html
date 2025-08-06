@@ -3,64 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Kế hoạch Dạy học Tin học</title>
-    <!-- Chosen Palette: Calm Neutrals (Background: Slate 100, Cards: White, Primary Accent: Sky 600, Chart Colors: Tailwind 500 series) -->
-    <!-- Application Structure Plan: The application is simplified to a tab-based layout. The left column is now dedicated to a single purpose: data visualization (donut chart showing percentage distribution) with a custom HTML legend for better text wrapping. The right column displays the full, chronologically sorted lesson plan, grouped by topic, without a scrollbar. An "Expand All" button has been added to improve usability by allowing users to see all details at once. The left column is made sticky only on large screens to prevent mobile view issues. -->
-    <!-- Visualization & Content Choices: 
-        - Report Info: Official ICT Curriculum for Grades 3, 4, 5. Goal: Provide a clear, chronologically accurate overview with percentage-based analytics and readable chart legends, plus bulk-expansion of details.
-        - Viz/Presentation Method: 
-            1. Donut Chart (Chart.js/Canvas) per grade, configured to use a custom-generated HTML legend to handle long text labels gracefully. Tooltips show percentages.
-            2. Statically Grouped Lesson Cards (HTML/CSS/JS), sorted by week number to ensure chronological accuracy.
-        - Interaction: 
-            1. Tabs switch between grades, updating both the chart and the lesson list.
-            2. An "Expand All" / "Collapse All" toggle button now controls the visibility of all NLS details within the active grade's lesson list.
-            3. Individual lesson cards remain expandable.
-        - Justification: The "Expand All" feature and removal of the scrollbar provide a comprehensive, printable view. Making the left column sticky only on large screens solves the mobile responsive layout problem.
-        - Library/Method: Chart.js for charts, Vanilla JS for tab navigation and all DOM manipulations.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <title>Dashboard Kế hoạch Dạy học Tin học - Chân Trời Sáng Tạo</title>
+    <!-- Libraries: Tailwind CSS for styling, Chart.js for visualization -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font: Be Vietnam Pro from Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        /* Custom styles for the dashboard */
         body {
             font-family: 'Be Vietnam Pro', sans-serif;
-            background-color: #f1f5f9;
+            background-color: #f1f5f9; /* Slate 100 */
         }
-        .nav-button {
-            transition: all 0.3s ease;
-        }
+        /* Style for active navigation button */
         .nav-button.active {
-            background-color: #0284c7;
+            background-color: #0284c7; /* Sky 600 */
             color: white;
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
-        .lesson-card {
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            cursor: pointer;
-        }
+        /* Hover effect for lesson cards */
         .lesson-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
+        /* Animation for expanding/collapsing details */
         .details {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.5s ease-out, padding 0.5s ease-out;
         }
         .details.open {
-            max-height: 500px;
+            max-height: 500px; /* Adjust if content is taller */
             padding-top: 0.75rem;
             padding-bottom: 0.5rem;
         }
+        /* Tab content visibility */
         .tab-content {
             display: none;
         }
         .tab-content.active {
             display: grid;
         }
+        /* Styling for topic headings */
         .topic-heading {
             font-size: 1.125rem; /* text-lg */
             font-weight: 700;
@@ -73,37 +59,39 @@
         .topic-heading:first-child {
             margin-top: 0;
         }
-        .sticky-aside {
-            position: sticky;
-            top: 2rem;
-            align-self: start;
-        }
+        /* Special styling for assessment/review lessons */
         .lesson-card.is-assessment {
-            background-color: #fef2f2; /* red-50 */
-            border-left-color: #f87171; /* red-400 */
+            background-color: #fef3c7; /* amber-100 */
+            border-left-color: #f59e0b; /* amber-500 */
         }
     </style>
 </head>
 <body class="text-slate-800">
     <div class="container mx-auto p-4 md:p-8">
+        <!-- Main Header -->
         <header class="text-center mb-8">
             <h1 class="text-3xl md:text-4xl font-bold text-slate-900">Kế Hoạch Dạy Học Tin Học</h1>
-            <p class="text-slate-600 mt-2">Năm học 2025 - 2026</p>
-            <p class="text-sm text-slate-500 mt-2">Giáo viên: Phong Do</p>
+            <p class="text-slate-600 mt-2">Năm học 2024 - 2025</p>
+            <p class="text-slate-500 mt-1">Giáo viên: Phong Do</p>
         </header>
 
-        <div class="flex justify-center mb-8">
-            <div id="grade-nav" class="flex space-x-2 bg-slate-200 p-1.5 rounded-full">
-                <button data-grade="3" class="nav-button py-2 px-6 rounded-full font-semibold">Khối 3</button>
-                <button data-grade="4" class="nav-button py-2 px-6 rounded-full font-semibold">Khối 4</button>
-                <button data-grade="5" class="nav-button py-2 px-6 rounded-full font-semibold">Khối 5</button>
+        <!-- Grade Navigation Tabs and Global Controls -->
+        <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
+            <div class="flex-1 hidden sm:block"></div>
+             <div id="grade-nav" class="flex space-x-2 bg-slate-200 p-1.5 rounded-full">
+                <button data-grade="3" class="nav-button py-2 px-6 rounded-full font-semibold transition-all duration-300">Khối 3</button>
+                <button data-grade="4" class="nav-button py-2 px-6 rounded-full font-semibold transition-all duration-300">Khối 4</button>
+                <button data-grade="5" class="nav-button py-2 px-6 rounded-full font-semibold transition-all duration-300">Khối 5</button>
+            </div>
+            <div class="flex-1 flex justify-center sm:justify-end w-full sm:w-auto">
+                <button id="expand-all-btn" class="bg-sky-100 text-sky-700 text-sm font-semibold px-4 py-2 rounded-full hover:bg-sky-200 transition w-full sm:w-auto">Xem tất cả</button>
             </div>
         </div>
 
         <main id="main-content">
-            <!-- Grade 3 Content -->
+            <!-- Grade 3 Content Area -->
             <div id="grade-3-content" class="tab-content grid-cols-1 lg:grid-cols-3 gap-8">
-                <aside class="lg:col-span-1 lg:sticky-aside">
+                <aside class="lg:col-span-1 lg:sticky lg:top-8 lg:self-start">
                     <div class="bg-white p-6 rounded-2xl shadow-lg">
                         <h2 class="text-2xl font-bold mb-4 text-slate-800">Phân bổ thời lượng (Khối 3)</h2>
                         <div class="chart-container relative h-64 w-full max-w-sm mx-auto mb-4">
@@ -114,16 +102,15 @@
                 </aside>
                 <section class="lg:col-span-2">
                     <div class="flex justify-between items-center mb-4">
-                        <h2 id="plan-title-3" class="text-2xl font-bold text-slate-800">Kế hoạch chi tiết khối 3</h2>
-                        <button class="expand-all-btn bg-sky-100 text-sky-700 text-sm font-semibold px-4 py-1 rounded-full hover:bg-sky-200 transition">Xem đầy đủ</button>
+                        <h2 class="text-2xl font-bold text-slate-800">Kế hoạch chi tiết khối 3</h2>
                     </div>
-                    <div id="lesson-plan-container-3" class="space-y-3 pr-2"></div>
+                    <div id="lesson-plan-container-3" class="space-y-3"></div>
                 </section>
             </div>
 
-            <!-- Grade 4 Content -->
+            <!-- Grade 4 Content Area -->
             <div id="grade-4-content" class="tab-content grid-cols-1 lg:grid-cols-3 gap-8">
-                <aside class="lg:col-span-1 lg:sticky-aside">
+                <aside class="lg:col-span-1 lg:sticky lg:top-8 lg:self-start">
                     <div class="bg-white p-6 rounded-2xl shadow-lg">
                         <h2 class="text-2xl font-bold mb-4 text-slate-800">Phân bổ thời lượng (Khối 4)</h2>
                         <div class="chart-container relative h-64 w-full max-w-sm mx-auto mb-4">
@@ -134,16 +121,15 @@
                 </aside>
                 <section class="lg:col-span-2">
                      <div class="flex justify-between items-center mb-4">
-                        <h2 id="plan-title-4" class="text-2xl font-bold text-slate-800">Kế hoạch chi tiết khối 4</h2>
-                        <button class="expand-all-btn bg-sky-100 text-sky-700 text-sm font-semibold px-4 py-1 rounded-full hover:bg-sky-200 transition">Xem đầy đủ</button>
+                        <h2 class="text-2xl font-bold text-slate-800">Kế hoạch chi tiết khối 4</h2>
                     </div>
-                    <div id="lesson-plan-container-4" class="space-y-3 pr-2"></div>
+                    <div id="lesson-plan-container-4" class="space-y-3"></div>
                 </section>
             </div>
 
-            <!-- Grade 5 Content -->
+            <!-- Grade 5 Content Area -->
             <div id="grade-5-content" class="tab-content grid-cols-1 lg:grid-cols-3 gap-8">
-                <aside class="lg:col-span-1 lg:sticky-aside">
+                <aside class="lg:col-span-1 lg:sticky lg:top-8 lg:self-start">
                     <div class="bg-white p-6 rounded-2xl shadow-lg">
                         <h2 class="text-2xl font-bold mb-4 text-slate-800">Phân bổ thời lượng (Khối 5)</h2>
                         <div class="chart-container relative h-64 w-full max-w-sm mx-auto mb-4">
@@ -153,105 +139,123 @@
                     </div>
                 </aside>
                 <section class="lg:col-span-2">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 id="plan-title-5" class="text-2xl font-bold text-slate-800">Kế hoạch chi tiết khối 5</h2>
-                        <button class="expand-all-btn bg-sky-100 text-sky-700 text-sm font-semibold px-4 py-1 rounded-full hover:bg-sky-200 transition">Xem đầy đủ</button>
+                     <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-bold text-slate-800">Kế hoạch chi tiết khối 5</h2>
                     </div>
-                    <div id="lesson-plan-container-5" class="space-y-3 pr-2"></div>
+                    <div id="lesson-plan-container-5" class="space-y-3"></div>
                 </section>
             </div>
         </main>
     </div>
 
     <script>
+        // --- DATA SOURCE ---
+        // This data is based on the "Chân Trời Sáng Tạo" textbook series curriculum and KHGD2425.2.pdf.
+        
+        // NLS (Năng lực số) Competency Descriptions - CORRECTED based on the provided PDF.
         const nlsContent = {
-            "1.1.L3-L4-L5.a": "Mô tả nhu cầu thông tin của mình.",
+            "1.1.L3-L4-L5.a": "Xác định được các thiết bị số quen thuộc và các chức năng chính của chúng.",
+            "1.1.L3-L4-L5.b": "Sử dụng được các phương thức tương tác cơ bản (ví dụ: bàn phím, chuột, màn hình cảm ứng) để làm việc với các thiết bị số.",
+            "1.1.L3-L4-L5.c": "Sử dụng được một số chức năng và tính năng cơ bản của thiết bị phần cứng của thiết bị số thông dụng.",
             "1.2.L3-L4-L5.a": "Biết về thông tin và nội dung số có trong thiết bị số.",
-            "2.1.L3-L4-L5.a": "Sử dụng được máy tìm kiếm để tìm thông tin theo từ khóa.",
-            "2.2.L3-L4-L5.a": "Đánh giá và lựa chọn thông tin tìm được từ các trang web khác nhau.",
-            "2.3.L3-L4-L5.a": "Biết cách truy cập, điều hướng, tổ chức và lưu trữ dữ liệu, thông tin, nội dung số.",
-            "3.1.L3-L4-L5.a": "Tương tác với nội dung số thông qua các công nghệ và nền tảng số.",
-            "4.1.L3-L4-L5.a": "Tạo và chỉnh sửa nội dung số ở các định dạng khác nhau.",
-            "4.1.L3-L4-L5.b": "Thể hiện được bản thân thông qua các phương tiện kỹ thuật số.",
-            "4.2.L3-L4-L5.a": "Chỉnh sửa, cải tiến và tích hợp thông tin và nội dung để tạo ra một cái gì đó mới, nguyên bản và phù hợp.",
-            "4.3.L3-L4-L5.a": "Chỉ ra được các quy tắc về bản quyền và giấy phép áp dụng cho nội dung số.",
-            "5.1.L3-L4-L5.a": "Sử dụng các thiết bị và công nghệ số để thực hiện các nhiệm vụ và giải quyết các vấn đề.",
-            "5.2.L3-L4-L5.a": "Nhận biết và thực hiện các biện pháp đơn giản để bảo vệ thông tin cá nhân và quyền riêng tư.",
-            "5.3.L3-L4-L5.a": "Nhận biết các quy tắc an toàn cơ bản khi tham gia các hoạt động trên môi trường số.",
-            "6.1.L3-L4-L5.a": "Nhận biết vai trò của máy tính và công nghệ số trong việc hỗ trợ giải quyết vấn đề.",
-            "6.2.L3-L4-L5.a": "Phân tích và chia một nhiệm vụ lớn thành các nhiệm vụ nhỏ hơn để giải quyết.",
-            "6.3.L3-L4-L5.a": "Hiểu và thực hiện công việc theo các bước, điều kiện, vòng lặp cho trước (tư duy thuật toán).",
-            "6.4.L3-L4-L5.a": "Biết cách kiểm tra, chạy thử và tìm lỗi (debug) chương trình đơn giản."
+            "1.2.L3-L4-L5.b": "Sử dụng được một số phần mềm điều khiển của thiết bị số.",
+            "2.1.L3-L4-L5.b": "Sử dụng được các công cụ tìm kiếm để tìm dữ liệu, thông tin và nội dung số.",
+            "2.1.L3-L4-L5.c": "Biết cách truy cập dữ liệu, thông tin, nội dung và điều hướng giữa chúng.",
+            "2.2.L3-L4-L5.a": "Tổ chức, phân loại và sắp xếp được dữ liệu, thông tin và nội dung số.",
+            "2.3.L3-L4-L5.a": "Lựa chọn dữ liệu, thông tin và nội dung để tổ chức, lưu trữ và truy xuất theo cách thường xuyên trong môi trường kỹ thuật số.",
+            "2.3.L3-L4-L5.b": "Thực hiện được các thao tác cơ bản để lưu trữ, sắp xếp, tìm kiếm và truy xuất dữ liệu, thông tin và nội dung số.",
+            "4.1.L3-L4-L5.a": "Chỉ ra được các cách để tạo và chỉnh sửa nội dung được xác định rõ ràng và thông thường ở các định dạng được xác định rõ ràng và phù hợp.",
+            "4.1.L3-L4-L5.b": "Thể hiện được bản thân thông qua các phương tiện kỹ thuật số được xác định rõ ràng và thường xuyên.",
+            "4.3.L3-L4-L5.a": "Chỉ ra được các quy tắc được xác định rõ ràng và thường xuyên về bản quyền và giấy phép áp dụng cho dữ liệu, thông tin kỹ thuật số và nội dung.",
+            "5.2.L3-L4-L5.a": "Thực hiện được các biện pháp đơn giản để bảo vệ dữ liệu cá nhân và quyền riêng tư.",
+            "6.1.L3-L4-L5.a": "Xác định và mô tả được một vấn đề cần giải quyết bằng các thuật ngữ tính toán.",
+            "6.1.L3-L4-L5.b": "Phân tích được một vấn đề thành các bước nhỏ hơn để giải quyết.",
+            "6.2.L3-L4-L5.a": "Chỉ ra các nhu cầu kỹ thuật số thường xuyên và được xác định rõ ràng.",
+            "6.4.L3-L4-L5.a": "Xác định và giải quyết được các vấn đề kỹ thuật đơn giản khi vận hành các công nghệ số.",
+            "6.5.L3-L4-L5.a": "Liệt kê các hướng dẫn được xác định rõ ràng và thường xuyên cho một hệ thống máy tính để giải quyết các vấn đề thông thường hoặc thực hiện các nhiệm vụ thông thường."
         };
 
+        // Lesson plan data for all grades based on "Chân Trời Sáng Tạo" and KHGD2425.2.pdf
         const lessonData = {
             3: {
                 lessons: [
-                    { week: 1, month: 9, topic: "Chủ đề A: Máy tính và em", name: "Bài 1. Thông tin và quyết định", periods: 1, competencyCode: "1.1.L3-L4-L5.a" },
-                    { week: "2, 3", month: 9, topic: "Chủ đề A: Máy tính và em", name: "Bài 2. Xử lý thông tin", periods: 2, competencyCode: "1.2.L3-L4-L5.a" },
-                    { week: "4, 5", month: "9, 10", topic: "Chủ đề A: Máy tính và em", name: "Bài 3. Máy tính – những người bạn mới", periods: 2, competencyCode: "5.1.L3-L4-L5.a" },
-                    { week: "6, 7, 8", month: 10, topic: "Chủ đề A: Máy tính và em", name: "Bài 4. Làm việc với máy tính", periods: 3, competencyCode: "5.1.L3-L4-L5.a" },
-                    { week: "9-12", month: 11, topic: "Chủ đề A: Máy tính và em", name: "Bài 5. Tập gõ bàn phím", periods: 4, competencyCode: "5.1.L3-L4-L5.a" },
-                    { week: "13, 14", month: 12, topic: "Chủ đề B: Mạng máy tính và Internet", name: "Bài 6. Xem tin và giải trí trên Internet", periods: 2, competencyCode: "3.1.L3-L4-L5.a;5.3.L3-L4-L5.a" },
-                    { week: "15, 16", month: 12, topic: "Chủ đề C: Tổ chức lưu trữ, tìm kiếm và trao đổi thông tin", name: "Bài 7. Sắp xếp để dễ tìm", periods: 2, competencyCode: "2.3.L3-L4-L5.a" },
-                    { week: "17, 18", month: "12, 1", topic: "Đánh giá", name: "Ôn tập & Kiểm tra cuối kỳ 1", periods: 2, competencyCode: "" },
-                    { week: "19-21", month: 1, topic: "Chủ đề C: Tổ chức lưu trữ, tìm kiếm và trao đổi thông tin", name: "Bài 8. Làm quen với thư mục", periods: 3, competencyCode: "2.3.L3-L4-L5.a" },
-                    { week: "22, 23", month: 2, topic: "Chủ đề D: Đạo đức, pháp luật và văn hoá trong môi trường số", name: "Bài 9. Lưu trữ, trao đổi, bảo vệ thông tin", periods: 2, competencyCode: "5.2.L3-L4-L5.a" },
-                    { week: "24, 25", month: 2, topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 10. Trang trình chiếu của em", periods: 2, competencyCode: "4.1.L3-L4-L5.a" },
-                    { week: "26-28", month: "2, 3", topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 11A. Luyện tập sử dụng chuột", periods: 3, competencyCode: "5.1.L3-L4-L5.a" },
-                    { week: 29, month: 3, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 12. Thực hiện công việc theo các bước", periods: 1, competencyCode: "6.3.L3-L4-L5.a" },
-                    { week: 30, month: 3, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 13. Chia việc lớn thành việc nhỏ", periods: 1, competencyCode: "6.2.L3-L4-L5.a" },
-                    { week: 31, month: 4, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 14. Công việc thực hiện theo điều kiện", periods: 1, competencyCode: "6.2.L3-L4-L5.a" },
-                    { week: "32, 33", month: 4, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 15. Nhiệm vụ của em và sự trợ giúp của máy tính", periods: 2, competencyCode: "6.1.L3-L4-L5.a" },
-                    { week: "34, 35", month: 5, topic: "Đánh giá", name: "Ôn tập & Kiểm tra cuối kỳ 2", periods: 2, competencyCode: "" }
+                    { week: "1", month: 9, topic: "Chủ đề A: Máy tính và em", name: "Bài 1. Thông tin và quyết định.", periods: 1, competencyCode: "1.2.L3-L4-L5.a" },
+                    { week: "2-3", month: 9, topic: "Chủ đề A: Máy tính và em", name: "Bài 2. Xử lý thông tin.", periods: 2, competencyCode: "1.2.L3-L4-L5.a" },
+                    { week: "4-5", month: 9, topic: "Chủ đề A: Máy tính và em", name: "Bài 3. Máy tính – những người bạn mới.", periods: 2, competencyCode: "1.1.L3-L4-L5.a" },
+                    { week: "6-8", month: 10, topic: "Chủ đề A: Máy tính và em", name: "Bài 4. Làm việc với máy tính.", periods: 3, competencyCode: "1.1.L3-L4-L5.b" },
+                    { week: "9-12", month: 11, topic: "Chủ đề A: Máy tính và em", name: "Bài 5. Tập gõ bàn phím.", periods: 4, competencyCode: "1.1.L3-L4-L5.b" },
+                    { week: "13-14", month: 12, topic: "Chủ đề B: Mạng máy tính và Internet", name: "Bài 6. Xem tin và giải trí trên Internet.", periods: 2, competencyCode: "2.1.L3-L4-L5.c" },
+                    { week: "15-16", month: 12, topic: "Chủ đề C: Tổ chức lưu trữ, tìm kiếm và trao đổi thông tin", name: "Bài 7. Sắp xếp để dễ tìm.", periods: 2, competencyCode: "2.3.L3-L4-L5.a" },
+                    { week: 17, topic: "Đánh giá", month: 12, name: "Ôn tập HKI", periods: 1, competencyCode: "" },
+                    { week: 18, topic: "Đánh giá", month: 1, name: "Kiểm tra HKI", periods: 1, competencyCode: "" },
+                    { week: "19-21", month: 1, topic: "Chủ đề C: Tổ chức lưu trữ, tìm kiếm và trao đổi thông tin", name: "Bài 8. Làm quen với thư mục.", periods: 3, competencyCode: "2.3.L3-L4-L5.b" },
+                    { week: "22-23", month: 2, topic: "Chủ đề D: Đạo đức, pháp luật và văn hóa trong môi trường số", name: "Bài 9. Lưu trữ, trao đổi, bảo vệ thông tin của em và gia đình em.", periods: 2, competencyCode: "5.2.L3-L4-L5.a" },
+                    { week: "24-25", month: 2, topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 10. Trang trình chiếu của em.", periods: 2, competencyCode: "1.2.L3-L4-L5.b" },
+                    { week: "26-28", month: 3, topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 11B. Luyện tập sử dụng chuột máy tính.", periods: 3, competencyCode: "1.1.L3-L4-L5.c" },
+                    { week: 29, month: 3, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 12. Thực hiện công việc theo các bước.", periods: 1, competencyCode: "6.1.L3-L4-L5.b" },
+                    { week: 30, month: 4, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 13. Chia việc lớn thành việc nhỏ để giải quyết.", periods: 1, competencyCode: "6.1.L3-L4-L5.b" },
+                    { week: 31, month: 4, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 14. Công việc thực hiện theo điều kiện.", periods: 1, competencyCode: "6.1.L3-L4-L5.b" },
+                    { week: "32-33", month: 4, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 15. Nhiệm vụ của em và sự trợ giúp của máy tính.", periods: 2, competencyCode: "6.1.L3-L4-L5.a" },
+                    { week: 34, topic: "Đánh giá", month: 5, name: "Ôn tập HKII", periods: 1, competencyCode: "" },
+                    { week: 35, topic: "Đánh giá", month: 5, name: "Kiểm tra HKII", periods: 1, competencyCode: "" }
                 ]
             },
             4: {
                 lessons: [
-                    { week: 1, month: 9, topic: "Chủ đề A: Máy tính và em", name: "Bài 1: Phần cứng và phần mềm máy tính", periods: 1, competencyCode: "5.1.L3-L4-L5.a" },
-                    { week: "2, 3", month: 9, topic: "Chủ đề A: Máy tính và em", name: "Bài 2: Gõ bàn phím đúng cách", periods: 2, competencyCode: "5.1.L3-L4-L5.a" },
-                    { week: "4, 5", month: "9, 10", topic: "Chủ đề B: Mạng máy tính và Internet", name: "Bài 3: Thông tin trên trang web", periods: 2, competencyCode: "1.2.L3-L4-L5.a" },
-                    { week: "6, 7", month: 10, topic: "Chủ đề C: Tổ chức lưu trữ, tìm kiếm và trao đổi thông tin", name: "Bài 4: Tìm kiếm thông tin trên Internet", periods: 2, competencyCode: "2.1.L3-L4-L5.a" },
-                    { week: "8, 9", month: 10, topic: "Chủ đề C: Tổ chức lưu trữ, tìm kiếm và trao đổi thông tin", name: "Bài 5: Thao tác với thư mục, tệp", periods: 2, competencyCode: "2.3.L3-L4-L5.a" },
-                    { week: 10, month: 11, topic: "Chủ đề D: Đạo đức, pháp luật và văn hoá trong môi trường số", name: "Bài 6: Sử dụng phần mềm khi được phép", periods: 1, competencyCode: "4.3.L3-L4-L5.a" },
-                    { week: "11-13", month: 11, topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 7: Soạn thảo văn bản tiếng Việt", periods: 3, competencyCode: "4.1.L3-L4-L5.a" },
-                    { week: "14-16", month: 12, topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 8: Chèn hình ảnh, sao chép, di chuyển văn bản", periods: 3, competencyCode: "4.1.L3-L4-L5.a" },
-                    { week: "17, 18", month: "12, 1", topic: "Đánh giá", name: "Ôn tập & Kiểm tra cuối kỳ 1", periods: 2, competencyCode: "" },
-                    { week: "19, 20", month: 1, topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 9: Bài trình chiếu của em", periods: 2, competencyCode: "4.1.L3-L4-L5.a" },
-                    { week: "21, 22", month: 2, topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 10: Định dạng, tạo hiệu ứng cho trang trình chiếu", periods: 2, competencyCode: "4.2.L3-L4-L5.a" },
-                    { week: "23-25", month: "2, 3", topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 11B: Thực hành luyện tập gõ bàn phím", periods: 3, competencyCode: "5.1.L3-L4-L5.a" },
-                    { week: "26, 27", month: 3, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 12: Làm quen với Scratch", periods: 2, competencyCode: "6.3.L3-L4-L5.a" },
-                    { week: "28-30", month: 3, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 13: Tạo chương trình máy tính để kể chuyện", periods: 3, competencyCode: "4.1.L3-L4-L5.b" },
-                    { week: "31-33", month: 4, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 14: Điều khiển nhân vật chuyển động trên sân khấu", periods: 3, competencyCode: "4.1.L3-L4-L5.b" },
-                    { week: "34, 35", month: 5, topic: "Đánh giá", name: "Ôn tập & Kiểm tra cuối kỳ 2", periods: 2, competencyCode: "" }
+                    { week: "1", month: 9, topic: "Chủ đề A: Máy tính và em", name: "Bài 1: Phần cứng và phần mềm máy tính.", periods: 1, competencyCode: "1.1.L3-L4-L5.a" },
+                    { week: "2-3", month: 9, topic: "Chủ đề A: Máy tính và em", name: "Bài 2: Gõ bàn phím đúng cách", periods: 2, competencyCode: "1.1.L3-L4-L5.b" },
+                    { week: "4-5", month: 9, topic: "Chủ đề B: Mạng máy tính và Internet", name: "Bài 3: Thông tin trên trang web.", periods: 2, competencyCode: "1.2.L3-L4-L5.a" },
+                    { week: "6-7", month: 10, topic: "Chủ đề C: Tổ chức lưu trữ, tìm kiếm và trao đổi thông tin", name: "Bài 4: Tìm kiếm thông tin trên Internet.", periods: 2, competencyCode: "2.1.L3-L4-L5.b" },
+                    { week: "8-9", month: 10, topic: "Chủ đề C: Tổ chức lưu trữ, tìm kiếm và trao đổi thông tin", name: "Bài 5: Thao tác với thư mục, tệp.", periods: 2, competencyCode: "2.3.L3-L4-L5.b" },
+                    { week: "10", month: 11, topic: "Chủ đề D: Đạo đức, pháp luật và văn hoá trong môi trường số", name: "Bài 6: Sử dụng phần mềm khi được phép.", periods: 1, competencyCode: "4.3.L3-L4-L5.a" },
+                    { week: "11-13", month: 11, topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 7: Soạn thảo văn bản tiếng Việt.", periods: 3, competencyCode: "4.1.L3-L4-L5.a" },
+                    { week: "14-16", month: 12, topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 8: Chèn hình ảnh, sao chép, di chuyển, xoá văn bản", periods: 3, competencyCode: "4.1.L3-L4-L5.a" },
+                    { week: 17, topic: "Đánh giá", month: 12, name: "Ôn tập HKI", periods: 1, competencyCode: "" },
+                    { week: 18, topic: "Đánh giá", month: 1, name: "Kiểm tra HKI", periods: 1, competencyCode: "" },
+                    { week: "19-20", month: 1, topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 9: Bài trình chiếu của em.", periods: 2, competencyCode: "4.1.L3-L4-L5.b" },
+                    { week: "21-22", month: 1, topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 10: Định dạng, tạo hiệu ứng cho trang chiếu", periods: 2, competencyCode: "4.1.L3-L4-L5.b" },
+                    { week: "23-25", month: 2, topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 11B: Thực hành luyện tập gõ bàn phím", periods: 3, competencyCode: "1.1.L3-L4-L5.b" },
+                    { week: "26-27", month: 3, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 12: Làm quen với Scratch.", periods: 2, competencyCode: "6.5.L3-L4-L5.a" },
+                    { week: "28-30", month: 3, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 13: Tạo chương trình máy tính để kể chuyện.", periods: 3, competencyCode: "4.1.L3-L4-L5.b" },
+                    { week: "31-33", month: 4, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 14: Điều khiển nhân vật chuyển động trên sân khấu.", periods: 3, competencyCode: "4.1.L3-L4-L5.b" },
+                    { week: 34, topic: "Đánh giá", month: 5, name: "Ôn tập HKII", periods: 1, competencyCode: "" },
+                    { week: 35, topic: "Đánh giá", month: 5, name: "Kiểm tra HKII", periods: 1, competencyCode: "" }
                 ]
             },
             5: {
                 lessons: [
-                    { week: "1, 2", month: 9, topic: "Chủ đề A: Máy tính và em", name: "Bài 1: Máy tính có thể giúp em làm những việc gì", periods: 2, competencyCode: "6.1.L3-L4-L5.a" },
-                    { week: "3, 4", month: 9, topic: "Chủ đề B: Mạng máy tính và Internet", name: "Bài 2: Tìm thông tin trên website", periods: 2, competencyCode: "2.2.L3-L4-L5.a" },
-                    { week: "5, 6", month: 10, topic: "Chủ đề C: Tổ chức lưu trữ, tìm kiếm và trao đổi thông tin", name: "Bài 3: Thông tin trong giải quyết vấn đề", periods: 2, competencyCode: "6.2.L3-L4-L5.a" },
-                    { week: "7, 8", month: 10, topic: "Chủ đề C: Tổ chức lưu trữ, tìm kiếm và trao đổi thông tin", name: "Bài 4: Tổ chức, lưu trữ và tìm tệp, thư mục", periods: 2, competencyCode: "2.3.L3-L4-L5.a" },
-                    { week: "9, 10", month: 11, topic: "Chủ đề D: Đạo đức, pháp luật và văn hoá trong môi trường số", name: "Bài 5: Bản quyền nội dung thông tin", periods: 2, competencyCode: "4.3.L3-L4-L5.a" },
-                    { week: "11, 12", month: 11, topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 6: Chỉnh sửa văn bản", periods: 2, competencyCode: "4.1.L3-L4-L5.a" },
-                    { week: "13, 14", month: 12, topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 7: Định dạng ký tự", periods: 2, competencyCode: "4.2.L3-L4-L5.a" },
-                    { week: "15-17", month: 12, topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 8A: Thực hành tạo thiệp chúc mừng", periods: 3, competencyCode: "4.1.L3-L4-L5.b" },
-                    { week: "18, 19", month: 1, topic: "Đánh giá", name: "Ôn tập & Kiểm tra cuối kỳ 1", periods: 2, competencyCode: "" },
-                    { week: "20, 21", month: "1, 2", topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 9: Cấu trúc tuần tự", periods: 2, competencyCode: "6.3.L3-L4-L5.a" },
-                    { week: "22, 23", month: 2, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 10: Cấu trúc rẽ nhánh", periods: 2, competencyCode: "6.3.L3-L4-L5.a" },
-                    { week: "24, 25", month: 2, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 11: Cấu trúc lặp", periods: 2, competencyCode: "6.3.L3-L4-L5.a" },
-                    { week: "26, 27", month: 3, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 12: Viết chương trình để tính toán", periods: 2, competencyCode: "6.3.L3-L4-L5.a" },
-                    { week: "28, 29", month: 3, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 13: Chạy thử chương trình", periods: 2, competencyCode: "6.4.L3-L4-L5.a" },
-                    { week: "30, 31", month: 4, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 14: Viết kịch bản chương trình máy tính", periods: 2, competencyCode: "6.2.L3-L4-L5.a" },
-                    { week: "32, 33", month: 4, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 15: Thực hành tạo chương trình theo kịch bản", periods: 2, competencyCode: "6.3.L3-L4-L5.a" },
-                    { week: "34, 35", month: 5, topic: "Đánh giá", name: "Ôn tập & Kiểm tra cuối kỳ 2", periods: 2, competencyCode: "" }
+                    { week: "1-2", month: 9, topic: "Chủ đề A: Máy tính và em", name: "Bài 1: Máy tính có thể giúp em làm những việc gì.", periods: 2, competencyCode: "6.2.L3-L4-L5.a" },
+                    { week: "3-4", month: 9, topic: "Chủ đề B: Mạng máy tính và Internet", name: "Bài 2: Tìm thông tin trên website.", periods: 2, competencyCode: "2.1.L3-L4-L5.b" },
+                    { week: "5-6", month: 10, topic: "Chủ đề C: Tổ chức lưu trữ, tìm kiếm và trao đổi thông tin", name: "Bài 3: Thông tin trong giải quyết vấn đề.", periods: 2, competencyCode: "1.2.L3-L4-L5.a" },
+                    { week: "7-8", month: 10, topic: "Chủ đề C: Tổ chức lưu trữ, tìm kiếm và trao đổi thông tin", name: "Bài 4: Tổ chức, lưu trữ và tìm tệp, thư mục trong máy tính.", periods: 2, competencyCode: "2.1.L3-L4-L5.c" },
+                    { week: "9-10", month: 11, topic: "Chủ đề D: Đạo đức, pháp luật và văn hoá trong môi trường số", name: "Bài 5: Bản quyền nội dung thông tin.", periods: 2, competencyCode: "4.3.L3-L4-L5.a" },
+                    { week: "11-12", month: 11, topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 6: Chỉnh sửa văn bản", periods: 2, competencyCode: "4.1.L3-L4-L5.a" },
+                    { week: "13-14", month: 12, topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 7: Định dạng ký tự. Tích hợp KN CDS", periods: 2, competencyCode: "4.1.L3-L4-L5.a" },
+                    { week: "15-17", month: 12, topic: "Chủ đề E: Ứng dụng tin học", name: "Bài 8A: Thực hành tạo thiệp chúc mừng.", periods: 3, competencyCode: "4.1.L3-L4-L5.b" },
+                    { week: 18, topic: "Đánh giá", month: 1, name: "Ôn tập HKI", periods: 1, competencyCode: "" },
+                    { week: 19, topic: "Đánh giá", month: 1, name: "Kiểm tra HKI", periods: 1, competencyCode: "" },
+                    { week: "20-21", month: 1, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 9: Cấu trúc tuần tự.", periods: 2, competencyCode: "6.1.L3-L4-L5.b" },
+                    { week: "22-23", month: 2, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 10: Cấu trúc rẽ nhánh.", periods: 2, competencyCode: "6.1.L3-L4-L5.b" },
+                    { week: "24-25", month: 2, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 11: Cấu trúc lặp.", periods: 2, competencyCode: "6.1.L3-L4-L5.b" },
+                    { week: "26-27", month: 3, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 12: Viết chương trình để tính toán.", periods: 2, competencyCode: "6.5.L3-L4-L5.a" },
+                    { week: "28-29", month: 3, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 13: Chạy thử chương trình.", periods: 2, competencyCode: "6.4.L3-L4-L5.a" },
+                    { week: "30-31", month: 4, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 14: Viết kịch bản chương trình máy tính.", periods: 2, competencyCode: "4.1.L3-L4-L5.b" },
+                    { week: "32-33", month: 4, topic: "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính", name: "Bài 15: Thực hành tạo chương trình theo kịch bản.", periods: 2, competencyCode: "4.1.L3-L4-L5.b" },
+                    { week: 34, topic: "Đánh giá", month: 5, name: "Ôn tập HKII", periods: 1, competencyCode: "" },
+                    { week: 35, topic: "Đánh giá", month: 5, name: "Kiểm tra HKII", periods: 1, competencyCode: "" }
                 ]
             }
         };
 
-        const gradeNav = document.getElementById('grade-nav');
-        const charts = {};
+        // --- APPLICATION LOGIC ---
+        
+        const charts = {}; // To store chart instances
 
+        /**
+         * Converts week strings (e.g., "1-2") to a sortable number.
+         * @param {string|number} weekValue - The week value from the data.
+         * @returns {number} The first week number for sorting.
+         */
         function getSortableWeek(weekValue) {
             if (typeof weekValue === 'number') return weekValue;
             if (typeof weekValue === 'string') {
@@ -260,42 +264,52 @@
             return 0;
         }
 
-        function getFullCompetencyText(codes) {
-            if (!codes) return "";
-            return codes.split(';')
-                .map(code => code.trim())
-                .map(code => `<b>${code}:</b> ${nlsContent[code] || 'N/A'}`)
-                .join('<br>');
-        }
-
+        /**
+         * Renders the detailed lesson plan for a specific grade.
+         * @param {string} grade - The grade to render ('3', '4', or '5').
+         */
         function renderLessonPlan(grade) {
             const planContainer = document.getElementById(`lesson-plan-container-${grade}`);
-            planContainer.innerHTML = '';
+            if (!planContainer) return;
+            planContainer.innerHTML = ''; // Clear previous content
+            
             const allLessons = lessonData[grade].lessons;
             
+            // Sort lessons chronologically by the first week number
             allLessons.sort((a, b) => getSortableWeek(a.week) - getSortableWeek(b.week));
 
             let currentTopic = null;
 
             allLessons.forEach(lesson => {
-                if (lesson.topic !== currentTopic && lesson.topic !== 'Đánh giá') {
+                // Add a heading for each new topic
+                if (lesson.topic !== currentTopic) {
                     currentTopic = lesson.topic;
-                    const topicHeading = document.createElement('h3');
-                    topicHeading.className = 'topic-heading';
-                    topicHeading.textContent = currentTopic;
-                    planContainer.appendChild(topicHeading);
+                    if(currentTopic !== "Đánh giá") { // Don't create a heading for reviews
+                        const topicHeading = document.createElement('h3');
+                        topicHeading.className = 'topic-heading';
+                        topicHeading.textContent = currentTopic;
+                        planContainer.appendChild(topicHeading);
+                    }
                 }
 
                 const card = document.createElement('div');
-                card.className = 'lesson-card bg-white p-4 rounded-lg shadow-md border-l-4';
+                card.className = 'lesson-card bg-white p-4 rounded-lg shadow-md border-l-4 transition-all duration-200 cursor-pointer';
                 
-                if (lesson.name.includes('Ôn tập & Kiểm tra')) {
+                // Apply special styling for assessment lessons
+                if (lesson.topic === 'Đánh giá') {
                     card.classList.add('is-assessment');
                 } else {
                     card.classList.add('border-sky-500');
                 }
                 
-                const competencyText = getFullCompetencyText(lesson.competencyCode);
+                // UPDATED: Display both NLS code and its description
+                const competencyText = lesson.competencyCode 
+                    ? `<p class="text-sm text-slate-600">
+                           <strong class="font-semibold text-slate-700">Năng lực số:</strong><br>
+                           <span class="font-semibold text-sky-700">${lesson.competencyCode}:</span> 
+                           ${nlsContent[lesson.competencyCode] || 'Không có mô tả.'}
+                       </p>` 
+                    : '';
 
                 card.innerHTML = `
                     <div class="flex justify-between items-start">
@@ -310,19 +324,30 @@
                     </div>
                     ${competencyText ? `
                     <div class="details">
-                        <p class="text-sm text-slate-600"><strong class="font-semibold text-slate-700">Năng lực số:</strong><br>${competencyText}</p>
+                        ${competencyText}
                     </div>` : ''}
                 `;
-                card.addEventListener('click', () => {
-                    const details = card.querySelector('.details');
-                    if (details) details.classList.toggle('open');
-                });
+                // Add click listener to toggle details visibility
+                if (competencyText) {
+                    card.addEventListener('click', () => {
+                        const details = card.querySelector('.details');
+                        if (details) details.classList.toggle('open');
+                    });
+                } else {
+                     card.style.cursor = 'default';
+                }
                 planContainer.appendChild(card);
             });
         }
         
+        /**
+         * Renders a custom HTML legend for a chart.
+         * @param {string} grade - The grade associated with the legend.
+         * @param {Chart} chart - The Chart.js instance.
+         */
         function renderHTMLLegend(grade, chart) {
             const legendContainer = document.getElementById(`chart-legend-${grade}`);
+            if (!legendContainer) return;
             legendContainer.innerHTML = '';
             const legendItems = chart.options.plugins.legend.labels.generateLabels(chart);
 
@@ -344,26 +369,25 @@
             });
         }
 
+        /**
+         * Renders the doughnut chart for a specific grade.
+         * @param {string} grade - The grade to render ('3', '4', or '5').
+         */
         function renderChart(grade) {
             const chartCanvas = document.getElementById(`topicChart${grade}`);
+            if (!chartCanvas) return;
+
             const data = lessonData[grade].lessons;
             const totalPeriods = data.reduce((sum, lesson) => sum + lesson.periods, 0);
+            
+            // Aggregate periods by topic
             const topicCounts = data.reduce((acc, lesson) => {
                 acc[lesson.topic] = (acc[lesson.topic] || 0) + lesson.periods;
                 return acc;
             }, {});
             
-            const shortTopicNames = {
-                "Chủ đề A: Máy tính và em": "Chủ đề A",
-                "Chủ đề B: Mạng máy tính và Internet": "Chủ đề B",
-                "Chủ đề C: Tổ chức lưu trữ, tìm kiếm và trao đổi thông tin": "Chủ đề C",
-                "Chủ đề D: Đạo đức, pháp luật và văn hoá trong môi trường số": "Chủ đề D",
-                "Chủ đề E: Ứng dụng tin học": "Chủ đề E",
-                "Chủ đề F: Giải quyết vấn đề với sự trợ giúp của máy tính": "Chủ đề F",
-                "Đánh giá": "Đánh giá"
-            };
-
-            const topicData = Object.entries(topicCounts).map(([label, value]) => ({ label, value }));
+            // UPDATED: Prepare data for sorting, moving "Đánh giá" to the end
+            let topicData = Object.entries(topicCounts).map(([label, value]) => ({ label, value }));
             const evalIndex = topicData.findIndex(item => item.label === 'Đánh giá');
             if (evalIndex > -1) {
                 const [evalItem] = topicData.splice(evalIndex, 1);
@@ -373,7 +397,7 @@
             const labels = topicData.map(item => item.label);
             const chartData = topicData.map(item => item.value);
 
-            if (charts[grade]) charts[grade].destroy();
+            if (charts[grade]) charts[grade].destroy(); // Destroy old chart instance if it exists
 
             charts[grade] = new Chart(chartCanvas, {
                 type: 'doughnut',
@@ -382,7 +406,7 @@
                     datasets: [{
                         label: 'Số tiết',
                         data: chartData,
-                        backgroundColor: ['#38bdf8', '#34d399', '#fbbf24', '#f87171', '#a78bfa', '#fb923c', '#8492a6'],
+                        backgroundColor: ['#38bdf8', '#34d399', '#fbbf24', '#f87171', '#a78bfa', '#fb923c', '#9ca3af'],
                         borderColor: '#fff',
                         borderWidth: 4,
                         hoverOffset: 8
@@ -391,18 +415,18 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    cutout: '65%',
                     plugins: {
                         legend: { 
-                           display: false
+                           display: false // We use a custom HTML legend
                         },
                         tooltip: {
                             callbacks: {
                                 label: (context) => {
-                                    const originalLabel = context.chart.data.labels[context.dataIndex];
-                                    const shortLabel = shortTopicNames[originalLabel] || originalLabel;
+                                    const label = context.label || '';
                                     const value = context.parsed;
                                     const percentage = ((value / totalPeriods) * 100).toFixed(1);
-                                    return `${shortLabel} (${value} tiết, ${percentage}%)`;
+                                    return `${label}: ${value} tiết (${percentage}%)`;
                                 }
                             }
                         }
@@ -412,6 +436,10 @@
             renderHTMLLegend(grade, charts[grade]);
         }
 
+        /**
+         * Sets the currently active grade tab and content.
+         * @param {string} grade - The grade to activate.
+         */
         function setActiveGrade(grade) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.getElementById(`grade-${grade}-content`).classList.add('active');
@@ -421,45 +449,48 @@
             });
         }
         
-        function initializeExpandAllButtons() {
-            let isAllExpanded = false;
-            document.querySelectorAll('.expand-all-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    isAllExpanded = !isAllExpanded;
-                    
-                    document.querySelectorAll('.details').forEach(detail => {
-                         if (isAllExpanded) {
-                            detail.classList.add('open');
-                        } else {
-                            detail.classList.remove('open');
-                        }
-                    });
-
-                    document.querySelectorAll('.expand-all-btn').forEach(btn => {
-                        btn.textContent = isAllExpanded ? 'Thu gọn' : 'Xem đầy đủ';
-                        btn.dataset.expanded = isAllExpanded;
-                    });
+        /**
+         * Initializes the global "Expand/Collapse All" button.
+         */
+        function initializeExpandAllButton() {
+            const button = document.getElementById('expand-all-btn');
+            button.addEventListener('click', () => {
+                const isExpanded = button.dataset.expanded === 'true';
+                const newExpandedState = !isExpanded;
+                
+                // UPDATED: Select all details across all tabs
+                const allDetails = document.querySelectorAll(`#main-content .details`);
+                allDetails.forEach(detail => {
+                    detail.classList.toggle('open', newExpandedState);
                 });
+
+                button.textContent = newExpandedState ? 'Thu gọn' : 'Xem tất cả';
+                button.dataset.expanded = newExpandedState;
             });
         }
 
+        /**
+         * Main function to initialize the dashboard.
+         */
         function initializeDashboard() {
             ['3', '4', '5'].forEach(grade => {
                 renderLessonPlan(grade);
                 renderChart(grade);
             });
-            setActiveGrade('3');
-            initializeExpandAllButtons();
+            setActiveGrade('3'); // Set grade 3 as the default
+            initializeExpandAllButton(); // Use the new global function
         }
 
-        gradeNav.addEventListener('click', (e) => {
+        // Event listener for grade navigation
+        document.getElementById('grade-nav').addEventListener('click', (e) => {
             if (e.target.tagName === 'BUTTON') {
                 const grade = e.target.dataset.grade;
                 if (grade) setActiveGrade(grade);
             }
         });
 
-        initializeDashboard();
+        // Run the initialization function when the page loads
+        document.addEventListener('DOMContentLoaded', initializeDashboard);
     </script>
 </body>
 </html>
