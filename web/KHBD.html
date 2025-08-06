@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Kế hoạch Dạy học Tin học</title>
     <!-- Chosen Palette: Calm Neutrals (Background: Slate 100, Cards: White, Primary Accent: Sky 600, Chart Colors: Tailwind 500 series) -->
-    <!-- Application Structure Plan: The application is simplified to a tab-based layout. The left column is now dedicated to a single purpose: data visualization (donut chart showing percentage distribution) with a custom HTML legend for better text wrapping. The right column displays the full, chronologically sorted lesson plan, grouped by topic, without a scrollbar. An "Expand All" button has been added to improve usability by allowing users to see all details at once. The left column is made sticky to prevent aesthetic issues with long content on the right. -->
+    <!-- Application Structure Plan: The application is simplified to a tab-based layout. The left column is now dedicated to a single purpose: data visualization (donut chart showing percentage distribution) with a custom HTML legend for better text wrapping. The right column displays the full, chronologically sorted lesson plan, grouped by topic, without a scrollbar. An "Expand All" button has been added to improve usability by allowing users to see all details at once. The left column is made sticky only on large screens to prevent mobile view issues. -->
     <!-- Visualization & Content Choices: 
         - Report Info: Official ICT Curriculum for Grades 3, 4, 5. Goal: Provide a clear, chronologically accurate overview with percentage-based analytics and readable chart legends, plus bulk-expansion of details.
         - Viz/Presentation Method: 
@@ -15,7 +15,7 @@
             1. Tabs switch between grades, updating both the chart and the lesson list.
             2. An "Expand All" / "Collapse All" toggle button now controls the visibility of all NLS details within the active grade's lesson list.
             3. Individual lesson cards remain expandable.
-        - Justification: The "Expand All" feature and removal of the scrollbar provide a comprehensive, printable view. Making the left column sticky solves the layout stretching problem, which is a significant UI improvement.
+        - Justification: The "Expand All" feature and removal of the scrollbar provide a comprehensive, printable view. Making the left column sticky only on large screens solves the mobile responsive layout problem.
         - Library/Method: Chart.js for charts, Vanilla JS for tab navigation and all DOM manipulations.
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
@@ -103,7 +103,7 @@
         <main id="main-content">
             <!-- Grade 3 Content -->
             <div id="grade-3-content" class="tab-content grid-cols-1 lg:grid-cols-3 gap-8">
-                <aside class="lg:col-span-1 sticky-aside">
+                <aside class="lg:col-span-1 lg:sticky-aside">
                     <div class="bg-white p-6 rounded-2xl shadow-lg">
                         <h2 class="text-2xl font-bold mb-4 text-slate-800">Phân bổ thời lượng (Khối 3)</h2>
                         <div class="chart-container relative h-64 w-full max-w-sm mx-auto mb-4">
@@ -123,7 +123,7 @@
 
             <!-- Grade 4 Content -->
             <div id="grade-4-content" class="tab-content grid-cols-1 lg:grid-cols-3 gap-8">
-                <aside class="lg:col-span-1 sticky-aside">
+                <aside class="lg:col-span-1 lg:sticky-aside">
                     <div class="bg-white p-6 rounded-2xl shadow-lg">
                         <h2 class="text-2xl font-bold mb-4 text-slate-800">Phân bổ thời lượng (Khối 4)</h2>
                         <div class="chart-container relative h-64 w-full max-w-sm mx-auto mb-4">
@@ -143,7 +143,7 @@
 
             <!-- Grade 5 Content -->
             <div id="grade-5-content" class="tab-content grid-cols-1 lg:grid-cols-3 gap-8">
-                <aside class="lg:col-span-1 sticky-aside">
+                <aside class="lg:col-span-1 lg:sticky-aside">
                     <div class="bg-white p-6 rounded-2xl shadow-lg">
                         <h2 class="text-2xl font-bold mb-4 text-slate-800">Phân bổ thời lượng (Khối 5)</h2>
                         <div class="chart-container relative h-64 w-full max-w-sm mx-auto mb-4">
