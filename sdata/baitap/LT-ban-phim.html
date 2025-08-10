@@ -693,20 +693,27 @@
             function endLesson() {
                 state.isFinished = true;
                 clearInterval(state.timerInterval);
+                
+                if (state.startTime) {
+                    state.elapsedTime += new Date() - state.startTime;
+                    state.startTime = null; 
+                }
                 updateStats();
 
-                const totalElapsedMinutes = ((state.elapsedTime + (new Date() - state.startTime)) / 1000) / 60;
+                const totalElapsedMinutes = (state.elapsedTime / 1000) / 60;
                 
-                const typedWords = state.textToType.split(/[\s\n]+/).filter(w => w.length > 0);
-                const originalWords = state.textToType.split(/[\s\n]+/).filter(w => w.length > 0);
+                const originalWords = state.textToType.trim().split(/[\s\n]+/).filter(w => w.length > 0);
+                const typedWords = state.typedText.trim().split(/[\s\n]+/).filter(w => w.length > 0);
                 
                 let correctWords = 0;
-                let incorrectWords = 0;
                 
-                originalWords.forEach((word, index) => {
-                    if (typedWords[index] === word) correctWords++;
-                    else incorrectWords++;
+                originalWords.forEach((originalWord, index) => {
+                    if (typedWords[index] && typedWords[index] === originalWord) {
+                        correctWords++;
+                    }
                 });
+
+                const incorrectWords = originalWords.length - correctWords;
 
                 const accuracy = state.typedText.length > 0 ? Math.max(0, Math.round(((state.typedText.length - state.errors) / state.typedText.length) * 100)) : 100;
                 const netWPM = totalElapsedMinutes > 0 ? Math.round((state.typedText.length / 5) / totalElapsedMinutes) : 0;
