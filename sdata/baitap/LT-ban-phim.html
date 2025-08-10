@@ -242,12 +242,12 @@
                 "Khóa Nâng Cao": {
                     "Chương 1: Luyện gõ từ phổ biến": {
                         "Bài 1: Tiếng Anh": "the be to of and a in that have I it for not on with he as you do at this but his by from they we say her she or an will my one all would there their what so up out if about who get which go me",
-                        "Bài 2: Tiếng Việt (Không dấu)": "cua va co mot la duoc cho khong ve da nguoi thi nhu khi con lai trong den cung tai hon voi nhung ben kia",
-                        "Bài 3: Tiếng Việt (Không dấu) #2": "hom nay troi dep qua bau troi trong xanh khong mot gon may nang vang trai khap noi",
-                        "Bài 4: Tiếng Việt (Không dấu) #3": "chung ta hay cung nhau hoc tap de xay dung dat nuoc ngay cang giau manh hon nua",
-                        "Bài 5: Tiếng Việt (Không dấu) #4": "gia dinh la to am la noi binh yen nhat de chung ta quay ve sau moi giong to",
-                        "Bài 6: Tiếng Việt (Không dấu) #5": "sach la nguoi ban tot nhat mo ra cho chung ta nhung chan troi tri thuc moi me",
-                        "Bài 7: Tiếng Việt (Không dấu) #6": "que huong la chum khe ngot cho con treo hai moi ngay que huong la duong di hoc"
+                        "Bài 2: Tiếng Việt (Ngắn)": "gia dinh la to am la noi binh yen nhat de chung ta quay ve sau moi giong to",
+                        "Bài 3: Tiếng Việt (Ngắn) #2": "sach la nguoi ban tot nhat mo ra cho chung ta nhung chan troi tri thuc moi me",
+                        "Bài 4: Tiếng Việt (Trung bình)": "hom nay troi dep qua bau troi trong xanh khong mot gon may nang vang trai khap noi",
+                        "Bài 5: Tiếng Việt (Trung bình) #2": "que huong la chum khe ngot cho con treo hai moi ngay que huong la duong di hoc",
+                        "Bài 6: Tiếng Việt (Dài)": "chung ta hay cung nhau hoc tap de xay dung dat nuoc ngay cang giau manh hon nua",
+                        "Bài 7: Tiếng Việt (Dài) #2": "Tram nam trong coi nguoi ta, chu tai chu menh kheo la ghet nhau. Trai qua mot cuoc be dau, nhung dieu trong thay ma dau don long."
                     },
                     "Chương 2: Luyện gõ câu": {
                         "Bài 1: Danh ngôn": "The only way to do great work is to love what you do. Stay hungry, stay foolish. The future belongs to those who believe in the beauty of their dreams. It does not matter how slowly you go as long as you do not stop.",
@@ -789,12 +789,21 @@
             }
 
             function goToNextLesson() {
-                const currentOptionIndex = lessonSelect.selectedIndex;
-                if (currentOptionIndex < lessonSelect.options.length - 1) {
-                    lessonSelect.selectedIndex = currentOptionIndex + 1;
-                    prepareLesson();
+                const isLastLessonInChapter = lessonSelect.selectedIndex === lessonSelect.options.length - 1;
+                const isLastChapterInCourse = chapterSelect.selectedIndex === chapterSelect.options.length - 1;
+
+                if (isLastLessonInChapter) {
+                    if (isLastChapterInCourse) {
+                        alert("Chúc mừng! Bạn đã hoàn thành tất cả các chương trong khóa học này.");
+                    } else {
+                        // Chuyển sang chương tiếp theo
+                        chapterSelect.selectedIndex += 1;
+                        chapterSelect.dispatchEvent(new Event('change'));
+                    }
                 } else {
-                    alert("Chúc mừng! Bạn đã hoàn thành tất cả các bài học trong chương này.");
+                    // Chuyển sang bài tiếp theo trong chương
+                    lessonSelect.selectedIndex += 1;
+                    prepareLesson();
                 }
             }
             
