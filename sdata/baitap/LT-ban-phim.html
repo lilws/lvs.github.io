@@ -95,6 +95,7 @@
                 <button id="restartBtn" class="p-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 w-10 h-10 flex items-center justify-center" title="Làm lại">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"></path></svg>
                 </button>
+                <button id="infoBtn" class="p-2 bg-gray-400 text-white font-semibold rounded-lg hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-300 w-10 h-10 flex items-center justify-center" title="Thông tin"></button>
                 <button id="fullscreenBtn" class="p-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 w-10 h-10 flex items-center justify-center" title="Phóng to / Thu nhỏ"></button>
             </div>
         </header>
@@ -144,16 +145,28 @@
 
     <!-- Instruction Modal -->
     <div id="instructionModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 hidden">
-        <div class="bg-white rounded-lg shadow-xl p-8 max-w-3xl w-full text-center">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-3xl w-full text-center relative">
+            <button id="closeInstructionModalBtn" class="absolute top-2 right-2 p-2 text-gray-400 hover:text-gray-700 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-400" title="Đóng (ESC)">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
             <h2 class="text-3xl font-bold mb-4">Hướng dẫn đặt tay</h2>
             <img src="https://data.lilw.dev/web/keyboard-finger.png" alt="Hướng dẫn đặt tay trên bàn phím" class="w-full rounded-lg mb-6 border" onerror="this.onerror=null;this.src='https://placehold.co/800x300/e2e8f0/4a5568?text=Loi+Hinh+Anh';">
-            <button id="startLessonBtn" class="mt-4 px-8 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 text-xl">Bắt đầu (Space/Enter)</button>
+            <div class="flex justify-between items-center mt-4">
+                <div class="flex items-center">
+                    <input type="checkbox" id="dontShowAgainCheckbox" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                    <label for="dontShowAgainCheckbox" class="ml-2 text-gray-700">Không hiển thị lại</label>
+                </div>
+                <button id="startLessonBtn" class="px-8 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 text-xl">Bắt đầu (Space/Enter)</button>
+            </div>
         </div>
     </div>
 
     <!-- Result Modal -->
     <div id="resultModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center hidden z-50">
-        <div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full text-center transform transition-all scale-95 opacity-0">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full text-center transform transition-all scale-95 opacity-0 relative">
+            <button id="closeResultModalBtn" class="absolute top-2 right-2 p-2 text-gray-400 hover:text-gray-700 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-400" title="Đóng (ESC)">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
             <h2 id="resultTitle" class="text-3xl font-bold mb-4">Kết quả</h2>
             <p id="resultMessage" class="text-lg mb-6"></p>
             <div class="grid grid-cols-2 gap-4 mb-6 text-left">
@@ -170,7 +183,7 @@
                     <div id="finalCorrect" class="text-2xl"></div>
                 </div>
                 <div class="bg-gray-100 p-4 rounded-lg">
-                    <div class="font-semibold">Số từ sai:</div>
+                    <div class="font-semibold">Lỗi sai:</div>
                     <div id="finalIncorrect" class="text-2xl"></div>
                 </div>
             </div>
@@ -181,10 +194,27 @@
         </div>
     </div>
 
+    <!-- Info Modal -->
+    <div id="infoModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-lg w-full text-left relative">
+             <button id="closeInfoModalBtn" class="absolute top-2 right-2 p-2 text-gray-400 hover:text-gray-700 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-400" title="Đóng (ESC)">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h2 class="text-3xl font-bold mb-6 text-center">Thông tin</h2>
+            <div class="space-y-3 text-lg">
+                <p class="flex items-start"><span class="font-semibold w-44 flex-shrink-0">Ý tưởng & Thiết kế:</span> <span class="ml-2">Phong Do</span></p>
+                <p class="flex items-start"><span class="font-semibold w-44 flex-shrink-0">Lập trình:</span> <span class="ml-2">Gemini 2.5 Pro</span></p>
+                <p class="flex items-start"><span class="font-semibold w-44 flex-shrink-0">Version:</span> <span class="ml-2">1.0</span></p>
+                <p class="flex items-start"><span class="font-semibold w-44 flex-shrink-0">Ngày phát hành:</span> <span class="ml-2">10/08/2025</span></p>
+            </div>
+        </div>
+    </div>
+
 
     <script>
         // --- GLOBAL STATE ---
         let isKeyboardGloballyHidden = false;
+        let showHandGuide = true;
 
         document.addEventListener('DOMContentLoaded', () => {
             // --- DATA ---
@@ -318,10 +348,16 @@
             const pauseBtn = document.getElementById('pauseBtn');
             const restartBtn = document.getElementById('restartBtn');
             const fullscreenBtn = document.getElementById('fullscreenBtn');
+            const infoBtn = document.getElementById('infoBtn');
             const pauseOverlay = document.getElementById('pauseOverlay');
             const instructionModal = document.getElementById('instructionModal');
             const startLessonBtn = document.getElementById('startLessonBtn');
+            const closeInstructionModalBtn = document.getElementById('closeInstructionModalBtn');
+            const dontShowAgainCheckbox = document.getElementById('dontShowAgainCheckbox');
             const resultModal = document.getElementById('resultModal');
+            const closeResultModalBtn = document.getElementById('closeResultModalBtn');
+            const infoModal = document.getElementById('infoModal');
+            const closeInfoModalBtn = document.getElementById('closeInfoModalBtn');
             const resultTitle = document.getElementById('resultTitle');
             const resultMessage = document.getElementById('resultMessage');
             const finalWPM = document.getElementById('finalWPM');
@@ -352,10 +388,12 @@
                 pause: `<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>`,
                 play: `<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>`,
                 fullscreen: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 4H3v7M14 20h7v-7M3 14v7h7M21 10V3h-7"></path></svg>`,
-                exitFullscreen: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h7V3M21 14h-7v7M14 3h7v7M10 21H3v-7"></path></svg>`
+                exitFullscreen: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h7V3M21 14h-7v7M14 3h7v7M10 21H3v-7"></path></svg>`,
+                info: `<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>`
             };
             pauseBtn.innerHTML = icons.pause;
             fullscreenBtn.innerHTML = icons.fullscreen;
+            infoBtn.innerHTML = icons.info;
 
             // --- Functions ---
             function populateCourses() {
@@ -410,7 +448,7 @@
                     keyboardContainer.classList.remove('hidden');
                 }
 
-                if (state.currentChapter === "Chương 1: Hàng phím cơ sở") {
+                if (state.currentChapter === "Chương 1: Hàng phím cơ sở" && showHandGuide) {
                     instructionModal.classList.remove('hidden');
                     startLessonBtn.focus();
                 } else {
@@ -419,6 +457,9 @@
             }
             
             function loadLesson(startImmediately = false) {
+                if (dontShowAgainCheckbox.checked) {
+                    showHandGuide = false;
+                }
                 instructionModal.classList.add('hidden');
                 state.currentLesson = lessonSelect.value;
                 state.textToType = lessonData[state.currentCourse][state.currentChapter][state.currentLesson];
@@ -606,10 +647,15 @@
             }
             
             function handleModalKeydown(e) {
-                 if (!instructionModal.classList.contains('hidden') && (e.code === 'Space' || e.code === 'Enter')) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    loadLesson(true);
+                 if (!instructionModal.classList.contains('hidden')) {
+                    if (e.code === 'Space' || e.code === 'Enter') {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        loadLesson(true);
+                    } else if (e.code === 'Escape') {
+                        e.preventDefault();
+                        closeInstructionModal();
+                    }
                 }
             }
 
@@ -618,7 +664,7 @@
                     e.preventDefault();
                     return;
                 }
-                if (!instructionModal.classList.contains('hidden') || !resultModal.classList.contains('hidden')) return;
+                if (!instructionModal.classList.contains('hidden') || !resultModal.classList.contains('hidden') || !infoModal.classList.contains('hidden')) return;
 
                 e.preventDefault();
                 if (state.isPaused || state.isFinished) return;
@@ -713,15 +759,13 @@
                     }
                 });
 
-                const incorrectWords = originalWords.length - correctWords;
-
                 const accuracy = state.typedText.length > 0 ? Math.max(0, Math.round(((state.typedText.length - state.errors) / state.typedText.length) * 100)) : 100;
                 const netWPM = totalElapsedMinutes > 0 ? Math.round((state.typedText.length / 5) / totalElapsedMinutes) : 0;
 
                 finalWPM.textContent = `${netWPM}`;
                 finalAccuracy.textContent = `${accuracy}%`;
                 finalCorrect.textContent = correctWords;
-                finalIncorrect.textContent = incorrectWords;
+                finalIncorrect.textContent = state.errors;
 
                 if (accuracy >= 80) {
                     resultTitle.textContent = "🎉 Hoàn thành xuất sắc! 🎉";
@@ -836,10 +880,32 @@
                     }
                 }
             }
+            
+            function closeResultModal() {
+                resultModal.classList.add('hidden');
+                resultModal.firstElementChild.classList.add('scale-95', 'opacity-0');
+            }
+
+            function closeInstructionModal() {
+                if (dontShowAgainCheckbox.checked) {
+                    showHandGuide = false;
+                }
+                instructionModal.classList.add('hidden');
+                loadLesson(); // Tải bài học nhưng không bắt đầu ngay
+            }
+
+            function openInfoModal() {
+                infoModal.classList.remove('hidden');
+            }
+
+            function closeInfoModal() {
+                infoModal.classList.add('hidden');
+            }
 
             // --- Event Listeners ---
             courseSelect.addEventListener('change', (e) => {
                 state.currentCourse = e.target.value;
+                showHandGuide = true; // Reset khi đổi khóa học
                 populateChapters();
             });
             chapterSelect.addEventListener('change', (e) => {
@@ -859,6 +925,14 @@
                         } else {
                             tryAgainBtn.click();
                         }
+                    } else if (e.code === 'Escape') {
+                        e.preventDefault();
+                        closeResultModal();
+                    }
+                } else if (!infoModal.classList.contains('hidden')) {
+                    if (e.code === 'Escape') {
+                        e.preventDefault();
+                        closeInfoModal();
                     }
                 } else {
                     handleKeyPress(e);
@@ -885,11 +959,15 @@
                 e.stopPropagation();
                 loadLesson(true);
             });
+            closeInstructionModalBtn.addEventListener('click', closeInstructionModal);
             tryAgainBtn.addEventListener('click', prepareLesson);
             nextLessonBtn.addEventListener('click', goToNextLesson);
             pauseBtn.addEventListener('click', togglePause);
             restartBtn.addEventListener('click', prepareLesson);
             fullscreenBtn.addEventListener('click', toggleFullscreen);
+            closeResultModalBtn.addEventListener('click', closeResultModal);
+            infoBtn.addEventListener('click', openInfoModal);
+            closeInfoModalBtn.addEventListener('click', closeInfoModal);
             
             toggleKeyboardBtn.addEventListener('click', () => {
                 isKeyboardGloballyHidden = !isKeyboardGloballyHidden;
