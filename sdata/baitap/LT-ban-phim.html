@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luyện tập gõ bàn phím</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Sửa ở đây nếu muốn đổi hình nền mặc định */
+            --bg-url: none;
+            --bg-opacity: 0.9; /* 0 (trong suốt) ↔ 1 (đục) */
+        }
+        html, body { height: 100%; }
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            overflow: hidden;
+            background: #f7fafc;
+        }
+        .key {
+            transition: all 0.1s ease-in-out;
+            box-shadow: 0 3px 0 0 #A0AEC0;
+            font-size: 1.25rem;
+        }
+        .key.active {
+            transform: translateY(3px);
+            box-shadow: none;
+            background-color: #4299E1;
+            color: white;
+        }
+        .key.active .key-symbol { color: white; }
+        .key.modifier { background-color: #E2E8F0; color: #4A5568; }
+        .key.finger-left-pinky { border-bottom: 5px solid #EF4444; }
+        .key.finger-left-ring { border-bottom: 5px solid #F97316; }
+        .key.finger-left-middle { border-bottom: 5px solid #EAB308; }
+        .key.finger-left-index { border-bottom: 5px solid #22C55E; }
+        .key.finger-thumb { border-bottom: 5px solid #A855F7; }
+        .key.finger-right-index { border-bottom: 5px solid #22C55E; }
+        .key.finger-right-middle { border-bottom: 5px solid #EAB308; }
+        .key.finger-right-ring { border-bottom: 5px solid #F97316; }
+        .key.finger-right-pinky { border-bottom: 5px solid #EF4444; }
+
+        #lessonText {
+            background-color: #D4F1F9; /* pastel sea blue for readability */
+            display: flex;
+            align-items: center;
+            font-size: 5.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            transition: scroll-left 0.2s ease-out;
+        }
+        #lessonText span { padding: 0 5px; margin: 0 5px; }
+        #lessonText span.space-char { color: #A0AEC0; }
+        #lessonText span.correct { color: #22C55E; }
+        #lessonText span.incorrect { color: #EF4444; background-color: #FEE2E2; border-radius: 4px; }
+        #lessonText span.current { background-color: #DBEAFE; border-radius: 4px; border-bottom: 4px solid #3B82F6; }
+        
+        #lessonText.advanced-lesson {
+            display: block;
+            white-space: pre-wrap;
+            overflow-y: auto;
+            font-size: 2rem;
+            line-height: 1.5;
+        }
+        #lessonText.advanced-lesson span { margin: 0; padding: 0 1px; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 flex flex-col items-center justify-center h-screen p-4">
+    
+    <h1 class="text-4xl font-bold text-gray-700 mb-4 flex-shrink-0">Luyện tập gõ bàn phím</h1>
+
+    <div class="w-full max-w-7xl mx-auto bg-white/80 backdrop-blur-sm rounded-xl shadow-2xl p-6 flex flex-col h-full max-h-[90vh]">
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-4 pb-4 border-b flex-shrink-0">
+            <div class="flex items-center gap-4 flex-wrap">
+                <div class="flex flex-col">
+                    <label for="courseSelect" class="text-sm font-bold text-gray-600">Khóa học</label>
+                    <select id="courseSelect" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"></select>
+                </div>
+                <div class="flex flex-col">
+                    <label for="chapterSelect" class="text-sm font-bold text-gray-600">Chương</label>
+                    <select id="chapterSelect" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"></select>
+                </div>
+                 <div class="flex flex-col">
+                    <label for="lessonSelect" class="text-sm font-bold text-gray-600">Bài học</label>
+                    <select id="lessonSelect" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"></select>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button id="toggleKeyboardBtn" class="px-4 py-2 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 hidden">Ẩn Bàn Phím</button>
+                <button id="pauseBtn" class="p-2 bg-yellow-500 text-white font-semibold rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 w-10 h-10 flex items-center justify-center"></button>
+                <button id="restartBtn" class="p-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 w-10 h-10 flex items-center justify-center" title="Làm lại">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"></path></svg>
+                </button>
+                <button id="fullscreenBtn" class="p-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 w-10 h-10 flex items-center justify-center" title="Phóng to / Thu nhỏ"></button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-grow flex flex-col overflow-hidden">
+            <!-- Stats -->
+            <div id="stats" class="grid grid-cols-5 gap-4 text-center mb-2 flex-shrink-0">
+                <div class="bg-gray-100 p-2 rounded-lg">
+                    <div class="text-xs text-gray-600">Tốc độ (WPM)</div>
+                    <div id="wpm" class="text-2xl font-bold text-gray-800">0</div>
+                </div>
+                <div class="bg-gray-100 p-2 rounded-lg">
+                    <div class="text-xs text-gray-600">Chính xác</div>
+                    <div id="accuracy" class="text-2xl font-bold text-gray-800">100%</div>
+                </div>
+                <div class="bg-gray-100 p-2 rounded-lg">
+                    <div class="text-xs text-gray-600">Thời gian</div>
+                    <div id="timer" class="text-2xl font-bold text-gray-800">00:00</div>
+                </div>
+                <div class="bg-gray-100 p-2 rounded-lg">
+                    <div class="text-xs text-gray-600">Tiến độ (%)</div>
+                    <div id="progress" class="text-2xl font-bold text-gray-800">0%</div>
+                </div>
+                <div class="bg-gray-100 p-2 rounded-lg">
+                    <div class="text-xs text-gray-600">Lỗi</div>
+                    <div id="errors" class="text-2xl font-bold text-gray-800">0</div>
+                </div>
+            </div>
+
+            <!-- Typing Area -->
+            <div id="lessonText" class="p-6 bg-gray-50 border-2 border-gray-200 rounded-lg mb-2 tracking-wider relative flex-grow min-h-[150px]">
+                 <div id="pauseOverlay" class="absolute inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center hidden">
+                    <h2 class="text-5xl font-bold text-white">ĐÃ DỪNG</h2>
+                </div>
+            </div>
+            
+            <!-- Finger Hint -->
+            <div id="fingerHint" class="text-center text-xl text-blue-600 font-semibold h-8 mb-2 flex-shrink-0"></div>
+
+            <!-- Virtual Keyboard -->
+            <div id="keyboard" class="flex justify-center items-start gap-8 flex-shrink-0">
+                <div id="main-keyboard" class="space-y-2"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Instruction Modal -->
+    <div id="instructionModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-3xl w-full text-center">
+            <h2 class="text-3xl font-bold mb-4">Hướng dẫn đặt tay</h2>
+            <img src="https://data.lilw.dev/web/keyboard-finger.png" alt="Hướng dẫn đặt tay trên bàn phím" class="w-full rounded-lg mb-6 border" onerror="this.onerror=null;this.src='https://placehold.co/800x300/e2e8f0/4a5568?text=Loi+Hinh+Anh';">
+            <button id="startLessonBtn" class="mt-4 px-8 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 text-xl">Bắt đầu (Space/Enter)</button>
+        </div>
+    </div>
+
+    <!-- Result Modal -->
+    <div id="resultModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full text-center transform transition-all scale-95 opacity-0">
+            <h2 id="resultTitle" class="text-3xl font-bold mb-4">Kết quả</h2>
+            <p id="resultMessage" class="text-lg mb-6"></p>
+            <div class="grid grid-cols-2 gap-4 mb-6 text-left">
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <div class="font-semibold">Tốc độ (WPM):</div>
+                    <div id="finalWPM" class="text-2xl"></div>
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <div class="font-semibold">Độ chính xác:</div>
+                    <div id="finalAccuracy" class="text-2xl"></div>
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <div class="font-semibold">Số từ đúng:</div>
+                    <div id="finalCorrect" class="text-2xl"></div>
+                </div>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <div class="font-semibold">Số từ sai:</div>
+                    <div id="finalIncorrect" class="text-2xl"></div>
+                </div>
+            </div>
+            <div class="flex justify-center space-x-4">
+                <button id="tryAgainBtn" class="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">Làm lại</button>
+                <button id="nextLessonBtn" class="px-6 py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400">Bài tiếp theo</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- GLOBAL STATE ---
+        let isKeyboardGloballyHidden = false;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- DATA ---
+            const lessonData = {
+                "Khóa Cơ Bản": {
+                    "Chương 1: Hàng phím cơ sở": {
+                        "Bài 1: Ký tự đơn f, j": "f f f f f j j j j j f j f j f j f j f j f j f j f j",
+                        "Bài 2: Ký tự đôi ff, jj": "ff ff ff ff jj jj jj jj ff jj ff jj ff jj ff jj ff jj",
+                        "Bài 3: Kết hợp f, j": "fj jf fj jf fj jf ff jj fj jf j f jf fj f j j f fj jf",
+                        "Bài 4: Ký tự đơn d, k": "d d d d d k k k k k d k d k d k d k d k d k d k d k",
+                        "Bài 5: Kết hợp d, k": "dk kd dk kd dk kd dd kk dk kd k d kd dk k d d k dk kd",
+                        "Bài 6: Ký tự đơn s, l": "s s s s s l l l l l s l s l s l s l s l s l s l s l",
+                        "Bài 7: Kết hợp s, l": "sl ls sl ls sl ls ss ll sl ls l s ls sl l s s l sl ls",
+                        "Bài 8: Ký tự đơn a, ;": "a a a a a ; ; ; ; ; a ; a ; a ; a ; a ; a ; a ; a ;",
+                        "Bài 9: Kết hợp a, ;": "a; ;a a; ;a a; ;a aa ;; a; ;a ; a ;a a; ; a a ; a; ;a",
+                        "Bài 10: Ôn tập hàng cơ sở": "a sad lad ask all fall; glass half sad; a lad asks a lass; a sad fall; all lads ask a lass; a flask falls;",
+                    },
+                    "Chương 2: Hàng phím trên": {
+                        "Bài 1: Ký tự e, i": "e e e e i i i i e i e i e i e i e i e i e i e i",
+                        "Bài 2: Kết hợp e, i": "ei ie ei ie ei ie ee ii ei ie lie see; we see it; feel free; i see the tree; we believe;",
+                        "Bài 3: Ký tự r, u": "r r r r u u u u r u r u r u r u r u r u r u r u",
+                        "Bài 4: Kết hợp r, u": "ru ur ru ur ru ur rr uu ru ur fur rug; run true; our rule; fur rugs are rare; a true ruler;",
+                        "Bài 5: Ký tự w, o": "w w w w o o o o w o w o w o w o w o w o w o w o",
+                        "Bài 6: Kết hợp w, o": "wo ow wo ow wo ow ww oo wo ow low wow; how now brown cow; we owe you one more; a slow row boat;",
+                        "Bài 7: Ký tự t, y": "t t t t y y y y t y t y t y t y t y t y t y t y",
+                        "Bài 8: Kết hợp t, y": "ty yt ty yt ty yt tt yy ty yt try yet; they try to type pretty yet they are not ready; a tiny story;",
+                        "Bài 9: Ký tự q, p": "q q q q p p p p q p q p q p q p q p q p q p q p",
+                        "Bài 10: Kết hợp q, p": "qp pq qp pq qp pq qq pp qp pq quit post; a quick stop; a popular quiz; a quiet place to post;",
+                        "Bài 11: Ôn tập hàng trên": "we try to rest; power query is popular; the quiet type; write a pretty quote; you owe your power to the people;",
+                    },
+                    "Chương 3: Hàng phím dưới": {
+                        "Bài 1: Ký tự n, m": "n n n n m m m m n m n m n m n m n m n m n m n m",
+                        "Bài 2: Kết hợp n, m": "nm mn nm mn nm mn nn mm nm mn man, more, come, same, from, him, time, some, them, make, many;",
+                        "Bài 3: Ký tự v, b": "v v v v b b b b v b v b v b v b v b v b v b v b",
+                        "Bài 4: Kết hợp v, b": "vb bv vb bv vb bv vv bb vb bv very; brave; big; ban; have; live; give; move; love; save; drive;",
+                        "Bài 5: Ký tự c, ,": "c c c c , , , , c , c , c , c , c , c , c , c ,",
+                        "Bài 6: Kết hợp c, ,": "c, ,c c, ,c cc ,, c, ,c cat, call, can, come, face, place, space, since, choice, because, public,",
+                        "Bài 7: Ký tự x, .": "x x x x . . . . x . x . x . x . x . x . x . x .",
+                        "Bài 8: Kết hợp x, .": "x. .x x. .x xx .. x. .x tax. box. fix. six. mix. next. text. flex. complex. explain. example.",
+                        "Bài 9: Ký tự z, /": "z z z z / / / / z / z / z / z / z / z / z / z /",
+                        "Bài 10: Kết hợp z, /": "z/ /z z/ /z zz // z/ /z maze/ zero/ size/ prize/ lazy/ crazy/ amazing/ puzzle/ pizza/ bronze/",
+                        "Bài 11: Ôn tập hàng dưới": "next, we can move. be brave and zoom/ a very nice man. a big black box. a common problem. a complex number.",
+                    },
+                    "Chương 4: Gõ chữ hoa": {
+                        "Bài 1: Chữ hoa cơ bản": "A S D F J K L G H R U E I W O Q P T Y M V C X Z B N",
+                        "Bài 2: Luyện tập chữ hoa": "London is the capital of the United Kingdom. Paris is a beautiful city in France. The United States of America is a large country. Tokyo is the capital of Japan.",
+                        "Bài 3: Luyện gõ tiếng Việt không dấu": "Ha Noi la thu do cua Viet Nam. Con nguoi Viet Nam rat than thien va men khach. Pho la mot mon an noi tieng The Gioi."
+                    },
+                    "Chương 5: Hàng phím số (Symbols)": {
+                        "Bài 1: ! @ # $ %": "! ! @ @ # # $ $ % % !@ #$% @# %! $@",
+                        "Bài 2: ^ & * ( )": "^ ^ & & * * ( ( ) ) ^& *( &* () *^",
+                        "Bài 3: Ôn tập Symbols": "1! 2@ 3# 4$ 5% 6^ 7& 8* 9( 0) a&b c&d e&f",
+                    }
+                },
+                "Khóa Nâng Cao": {
+                    "Chương 1: Luyện gõ từ phổ biến": {
+                        "Bài 1: Tiếng Anh": "the be to of and a in that have I it for not on with he as you do at this but his by from they we say her she or an will my one all would there their what so up out if about who get which go me",
+                        "Bài 2: Tiếng Việt (Không dấu)": "cua va co mot la duoc cho khong ve da nguoi thi nhu khi con lai trong den cung tai hon voi nhung ben kia",
+                        "Bài 3: Tiếng Việt (Không dấu) #2": "hom nay troi dep qua bau troi trong xanh khong mot gon may nang vang trai khap noi",
+                        "Bài 4: Tiếng Việt (Không dấu) #3": "chung ta hay cung nhau hoc tap de xay dung dat nuoc ngay cang giau manh hon nua",
+                        "Bài 5: Tiếng Việt (Không dấu) #4": "gia dinh la to am la noi binh yen nhat de chung ta quay ve sau moi giong to",
+                        "Bài 6: Tiếng Việt (Không dấu) #5": "sach la nguoi ban tot nhat mo ra cho chung ta nhung chan troi tri thuc moi me",
+                        "Bài 7: Tiếng Việt (Không dấu) #6": "que huong la chum khe ngot cho con treo hai moi ngay que huong la duong di hoc"
+                    },
+                    "Chương 2: Luyện gõ câu": {
+                        "Bài 1: Danh ngôn": "The only way to do great work is to love what you do. Stay hungry, stay foolish. The future belongs to those who believe in the beauty of their dreams. It does not matter how slowly you go as long as you do not stop.",
+                        "Bài 2: Thật là hay": "Nghe veo von trong vom cay.\nHoa mi voi chim oanh.\nHai chu chim cao giong hot.\nHot liu lo vang lung!\nVui rat vui bay tu xa.\nChim khuyen toi hot theo.\nLi li li li li li.\nThat la hay hay hay!",
+                        "Bài 3: Cháu Lên Ba": "Chau len ba chau di mau giao.\nCo thuong chau vi chau khong khoc nhe.\nKhong khoc nhe de me trong cay trai.\nBa vao nha may ong ba vui cay.",
+                        "Bài 4: Một Con Vịt": "Mot con vit xoe ra hai cai canh.\nNo keu rang quac quac quac quac quac quac!\nGap ho nuoc no bi ba bi bom.\nLuc len bo vay cai canh cho kho.",
+                        "Bài 5: Bắc Kim Thang": "Bac kim thang ca lang bi ro.\nCot qua keo la keo qua cot.\nChu ban dau qua cau ma te.\nChu ban ech o lai lam chi.\nCon le le danh trong thoi ken.\nCon bim bip thoi to ti te to te!",
+                        "Bài 6: Rửa Mặt Như Mèo": "Meo meo meo rua mat nhu meo.\nXau xau lam chang duoc me yeu.\nKhan mat dau ma ngoi liem mep.\nDau mat roi lai khoc meo meo!",
+                        "Bài 7: Con Cò Bé Bé": "Con co be be no dau canh tre.\nDi khong hoi me biet di duong nao.\nKhi di em hoi khi ve em chao.\nMieng em chu chim me co yeu khong nao!"
+                    }
+                }
+            };
+
+            const keyboardLayout = [
+                ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
+                ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\'],
+                ['CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", 'Enter'],
+                ['ShiftLeft', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'ShiftRight'],
+                ['CtrlLeft', 'WinLeft', 'AltLeft', 'Space', 'AltRight', 'WinRight', 'CtrlRight']
+            ];
+            
+            const fingerMap = {
+                '`': 'left-pinky', '1': 'left-pinky', '!': 'left-pinky', 'q': 'left-pinky', 'a': 'left-pinky', 'z': 'left-pinky',
+                '2': 'left-ring', '@': 'left-ring', 'w': 'left-ring', 's': 'left-ring', 'x': 'left-ring',
+                '3': 'left-middle', '#': 'left-middle', 'e': 'left-middle', 'd': 'left-middle', 'c': 'left-middle',
+                '4': 'left-index', '$': 'left-index', 'r': 'left-index', 'f': 'left-index', 'v': 'left-index',
+                '5': 'left-index', '%': 'left-index', 't': 'left-index', 'g': 'left-index', 'b': 'left-index',
+                '6': 'right-index', '^': 'right-index', 'y': 'right-index', 'h': 'right-index', 'n': 'right-index',
+                '7': 'right-index', '&': 'right-index', 'u': 'right-index', 'j': 'right-index', 'm': 'right-index',
+                '8': 'right-middle', '*': 'right-middle', 'i': 'right-middle', 'k': 'right-middle', ',': 'right-middle', '<': 'right-middle',
+                '9': 'right-ring', '(': 'right-ring', 'o': 'right-ring', 'l': 'right-ring', '.': 'right-ring', '>': 'right-ring',
+                '0': 'right-pinky', ')': 'right-pinky', 'p': 'right-pinky', ';': 'right-pinky', '/': 'right-pinky', '?': 'right-pinky',
+                '-': 'right-pinky', '_': 'right-pinky', '[': 'right-pinky', '{': 'right-pinky', "'": 'right-pinky', '"': 'right-pinky',
+                '=': 'right-pinky', '+': 'right-pinky', ']': 'right-pinky', '}': 'right-pinky', '\\': 'right-pinky', '|': 'right-pinky',
+                ' ': 'thumb',
+            };
+            
+            const fingerNameMap = {
+                'left-pinky': 'Ngón út trái', 'left-ring': 'Ngón áp út trái', 'left-middle': 'Ngón giữa trái', 'left-index': 'Ngón trỏ trái',
+                'thumb': 'Ngón cái',
+                'right-index': 'Ngón trỏ phải', 'right-middle': 'Ngón giữa phải', 'right-ring': 'Ngón áp út phải', 'right-pinky': 'Ngón út phải'
+            };
+
+            const keyToSymbolMap = {
+                '`': '~', '1': '!', '2': '@', '3': '#', '4': '$', '5': '%',
+                '6': '^', '7': '&', '8': '*', '9': '(', '0': ')',
+                '-': '_', '=': '+', '[': '{', ']': '}', '\\': '|',
+                ';': ':', "'": '"', ',': '<', '.': '>', '/': '?'
+            };
+            
+            const symbolToBaseKeyMap = Object.fromEntries(Object.entries(keyToSymbolMap).map(([key, val]) => [val, key]));
+
+
+            // --- DOM Elements ---
+            const courseSelect = document.getElementById('courseSelect');
+            const chapterSelect = document.getElementById('chapterSelect');
+            const lessonSelect = document.getElementById('lessonSelect');
+            const lessonTextEl = document.getElementById('lessonText');
+            const mainKeyboardEl = document.getElementById('main-keyboard');
+            const keyboardContainer = document.getElementById('keyboard');
+            const fingerHintEl = document.getElementById('fingerHint');
+            const wpmEl = document.getElementById('wpm');
+            const accuracyEl = document.getElementById('accuracy');
+            const timerEl = document.getElementById('timer');
+            const errorsEl = document.getElementById('errors');
+            const progressEl = document.getElementById('progress');
+            const toggleKeyboardBtn = document.getElementById('toggleKeyboardBtn');
+            const pauseBtn = document.getElementById('pauseBtn');
+            const restartBtn = document.getElementById('restartBtn');
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+            const pauseOverlay = document.getElementById('pauseOverlay');
+            const instructionModal = document.getElementById('instructionModal');
+            const startLessonBtn = document.getElementById('startLessonBtn');
+            const resultModal = document.getElementById('resultModal');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultMessage = document.getElementById('resultMessage');
+            const finalWPM = document.getElementById('finalWPM');
+            const finalAccuracy = document.getElementById('finalAccuracy');
+            const finalCorrect = document.getElementById('finalCorrect');
+            const finalIncorrect = document.getElementById('finalIncorrect');
+            const tryAgainBtn = document.getElementById('tryAgainBtn');
+            const nextLessonBtn = document.getElementById('nextLessonBtn');
+
+            // --- LESSON STATE (reset for each lesson) ---
+            let state = {
+                currentCourse: '',
+                currentChapter: '',
+                currentLesson: '',
+                textToType: '',
+                typedText: '',
+                startTime: null,
+                timerInterval: null,
+                elapsedTime: 0, 
+                errors: 0,
+                totalChars: 0,
+                isStarted: false,
+                isPaused: false,
+                isFinished: false,
+            };
+            
+            const icons = {
+                pause: `<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>`,
+                play: `<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>`,
+                fullscreen: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 4H3v7M14 20h7v-7M3 14v7h7M21 10V3h-7"></path></svg>`,
+                exitFullscreen: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h7V3M21 14h-7v7M14 3h7v7M10 21H3v-7"></path></svg>`
+            };
+            pauseBtn.innerHTML = icons.pause;
+            fullscreenBtn.innerHTML = icons.fullscreen;
+
+            // --- Functions ---
+            function populateCourses() {
+                for (const courseName in lessonData) {
+                    const option = document.createElement('option');
+                    option.value = courseName;
+                    option.textContent = courseName;
+                    courseSelect.appendChild(option);
+                }
+                state.currentCourse = courseSelect.value;
+                populateChapters();
+            }
+
+            function populateChapters() {
+                chapterSelect.innerHTML = '';
+                const course = lessonData[state.currentCourse];
+                for (const chapterName in course) {
+                    const option = document.createElement('option');
+                    option.value = chapterName;
+                    option.textContent = chapterName;
+                    chapterSelect.appendChild(option);
+                }
+                state.currentChapter = chapterSelect.value;
+                populateLessons();
+            }
+            
+            function populateLessons() {
+                lessonSelect.innerHTML = '';
+                const chapter = lessonData[state.currentCourse][state.currentChapter];
+                for (const lessonName in chapter) {
+                    const option = document.createElement('option');
+                    option.value = lessonName;
+                    option.textContent = lessonName;
+                    lessonSelect.appendChild(option);
+                }
+                prepareLesson();
+            }
+            
+            function prepareLesson() {
+                resetState();
+                state.currentCourse = courseSelect.value;
+                state.currentChapter = chapterSelect.value;
+                
+                const isAdvanced = state.currentCourse === "Khóa Nâng Cao";
+                toggleKeyboardBtn.classList.toggle('hidden', !isAdvanced);
+                lessonTextEl.classList.toggle('advanced-lesson', isAdvanced);
+
+                if (isAdvanced) {
+                    keyboardContainer.classList.toggle('hidden', isKeyboardGloballyHidden);
+                    toggleKeyboardBtn.textContent = isKeyboardGloballyHidden ? 'Hiện Bàn Phím' : 'Ẩn Bàn Phím';
+                } else {
+                    keyboardContainer.classList.remove('hidden');
+                }
+
+                if (state.currentChapter === "Chương 1: Hàng phím cơ sở") {
+                    instructionModal.classList.remove('hidden');
+                    startLessonBtn.focus();
+                } else {
+                    loadLesson();
+                }
+            }
+            
+            function loadLesson(startImmediately = false) {
+                instructionModal.classList.add('hidden');
+                state.currentLesson = lessonSelect.value;
+                state.textToType = lessonData[state.currentCourse][state.currentChapter][state.currentLesson];
+                state.totalChars = state.textToType.length;
+                renderLessonText();
+                if (startImmediately) {
+                    startTimer();
+                }
+            }
+
+            function renderLessonText() {
+                const overlay = lessonTextEl.querySelector('#pauseOverlay');
+                lessonTextEl.innerHTML = '';
+                if (overlay) lessonTextEl.appendChild(overlay);
+
+                const textFragment = document.createDocumentFragment();
+                const isAdvanced = lessonTextEl.classList.contains('advanced-lesson');
+
+                state.textToType.split('').forEach((char, index) => {
+                    const span = document.createElement('span');
+                    
+                    if (char === ' ' && !isAdvanced) {
+                        span.innerHTML = '&middot;';
+                        span.classList.add('space-char');
+                    } else if (char === ' ') {
+                        span.textContent = ' ';
+                    } else if (char === '\n') {
+                        span.innerHTML = '↵<br>';
+                    } else {
+                        span.textContent = char;
+                    }
+
+                    if (index < state.typedText.length) {
+                        if (state.textToType[index] === state.typedText[index]) {
+                            span.classList.add('correct');
+                        } else {
+                            span.classList.add('incorrect');
+                        }
+                    }
+
+                    if (index === state.typedText.length) {
+                        span.classList.add('current');
+                    }
+                    textFragment.appendChild(span);
+                });
+                lessonTextEl.appendChild(textFragment);
+                updateKeyboardHighlight();
+                ensureCurrentCharIsVisible();
+            }
+            
+            function ensureCurrentCharIsVisible() {
+                const currentSpan = document.querySelector('#lessonText span.current');
+                if (!currentSpan) return;
+
+                const container = lessonTextEl;
+                if (container.classList.contains('advanced-lesson')) {
+                    const containerRect = container.getBoundingClientRect();
+                    const charRect = currentSpan.getBoundingClientRect();
+                    if (charRect.bottom > containerRect.bottom) {
+                        container.scrollTop += charRect.bottom - containerRect.bottom + 20;
+                    }
+                    if (charRect.top < containerRect.top) {
+                        container.scrollTop -= containerRect.top - charRect.top - 20;
+                    }
+                } else {
+                    const containerWidth = container.offsetWidth;
+                    const charLeft = currentSpan.offsetLeft;
+                    const charWidth = currentSpan.offsetWidth;
+                    const targetScroll = charLeft - (containerWidth / 2) + (charWidth / 2);
+                    container.scrollLeft = targetScroll;
+                }
+            }
+
+            function createKeyElement(key) {
+                const keyEl = document.createElement('button');
+                let keyText = key.replace('Left', '').replace('Right', '');
+                keyEl.className = 'key h-14 rounded-md bg-gray-200 text-gray-700 font-semibold focus:outline-none relative';
+                keyEl.id = `key-${key.toLowerCase()}`;
+                keyEl.dataset.originalKey = keyText;
+                
+                const mainTextSpan = document.createElement('span');
+                mainTextSpan.className = 'main-key-text';
+                
+                if (key.includes('Win')) {
+                    keyEl.classList.add('modifier');
+                    keyEl.style.width = '60px';
+                    keyEl.innerHTML = `<svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3,12V6.75L9,5.43V11.91L3,12M21,12V4.5L11,3V11.91L21,12M3,13L9,13.09V19.57L3,18.25V13M21,13L11,13.09V21L21,19.5V13Z"></path></svg>`;
+                } else {
+                    mainTextSpan.textContent = keyText;
+                    keyEl.appendChild(mainTextSpan);
+                }
+
+                if (keyToSymbolMap[key]) {
+                    const symbolSpan = document.createElement('span');
+                    symbolSpan.className = 'key-symbol absolute top-1.5 right-2 text-sm text-gray-500';
+                    symbolSpan.textContent = keyToSymbolMap[key];
+                    keyEl.appendChild(symbolSpan);
+                }
+                
+                let fingerClass = fingerMap[key.toLowerCase()];
+                if(fingerClass) keyEl.classList.add(`finger-${fingerClass}`);
+                
+                if (key.includes('Ctrl') || key.includes('Alt')) {
+                    keyEl.classList.add('modifier');
+                    keyEl.style.width = '80px';
+                } else if (key === 'Backspace') keyEl.style.width = '120px';
+                else if (key === 'Tab') keyEl.style.width = '90px';
+                else if (key === 'CapsLock') keyEl.style.width = '110px';
+                else if (key === 'Enter') keyEl.style.width = '110px';
+                else if (key.includes('Shift')) keyEl.style.width = '145px';
+                else if (key === 'Space') {
+                    keyEl.style.width = '330px';
+                    keyEl.classList.add('finger-thumb');
+                }
+                else if (!key.includes('Win')) {
+                    keyEl.style.width = '60px';
+                }
+
+                return keyEl;
+            }
+
+            function createKeyboard() {
+                mainKeyboardEl.innerHTML = '';
+                keyboardLayout.forEach(row => {
+                    const rowEl = document.createElement('div');
+                    rowEl.className = 'flex justify-center space-x-2';
+                    row.forEach(key => rowEl.appendChild(createKeyElement(key)));
+                    mainKeyboardEl.appendChild(rowEl);
+                });
+            }
+
+            function updateKeyboardHighlight() {
+                document.querySelectorAll('.key.active').forEach(k => k.classList.remove('active'));
+                
+                const nextChar = state.textToType[state.typedText.length];
+                
+                if (state.isPaused || state.isFinished || !nextChar) {
+                    fingerHintEl.textContent = '';
+                    return;
+                }
+                
+                const isShifted = (nextChar !== nextChar.toLowerCase() && nextChar.match(/[a-zA-Z]/)) || Object.keys(symbolToBaseKeyMap).includes(nextChar);
+                
+                let baseKeyId;
+                
+                if (isShifted) {
+                    let mainKeySymbol;
+                    if (symbolToBaseKeyMap[nextChar]) {
+                        baseKeyId = symbolToBaseKeyMap[nextChar];
+                        mainKeySymbol = nextChar;
+                    } else {
+                        baseKeyId = nextChar.toLowerCase();
+                        mainKeySymbol = nextChar.toUpperCase();
+                    }
+
+                    const fingerForMainKey = fingerMap[baseKeyId];
+                    const mainKeyFingerName = fingerNameMap[fingerForMainKey];
+                    let shiftHint;
+
+                    if (fingerForMainKey && fingerForMainKey.startsWith('right-')) {
+                        document.getElementById('key-shiftleft').classList.add('active');
+                        shiftHint = `${fingerNameMap['left-pinky']} giữ Shift`;
+                    } else { 
+                        document.getElementById('key-shiftright').classList.add('active');
+                        shiftHint = `${fingerNameMap['right-pinky']} giữ Shift`;
+                    }
+                    
+                    fingerHintEl.textContent = `${shiftHint} + ${mainKeyFingerName} nhấn ${mainKeySymbol}`;
+
+                } else {
+                    baseKeyId = nextChar.toLowerCase();
+                    if (nextChar === '\n') baseKeyId = 'enter';
+                    const finger = fingerMap[baseKeyId];
+                    if (finger) {
+                        fingerHintEl.textContent = fingerNameMap[finger];
+                    } else {
+                        fingerHintEl.textContent = '';
+                    }
+                }
+
+                if (baseKeyId === ' ') baseKeyId = 'space';
+                
+                const keyEl = document.getElementById(`key-${baseKeyId}`);
+                if (keyEl) keyEl.classList.add('active');
+            }
+            
+            function handleModalKeydown(e) {
+                 if (!instructionModal.classList.contains('hidden') && (e.code === 'Space' || e.code === 'Enter')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    loadLesson(true);
+                }
+            }
+
+            function handleKeyPress(e) {
+                if (e.key === 'Meta') { // Bỏ qua phím Windows
+                    e.preventDefault();
+                    return;
+                }
+                if (!instructionModal.classList.contains('hidden') || !resultModal.classList.contains('hidden')) return;
+
+                e.preventDefault();
+                if (state.isPaused || state.isFinished) return;
+                
+                const key = e.key;
+                if (key === 'Dead') return;
+
+                if (!state.isStarted) {
+                    startTimer();
+                }
+
+                if (state.typedText.length >= state.textToType.length) return;
+
+                if (key === 'Backspace') {
+                    if (state.typedText.length > 0) {
+                        state.typedText = state.typedText.slice(0, -1);
+                    }
+                } else {
+                    const expectedChar = state.textToType[state.typedText.length];
+                    let typedKey = key;
+                    if (expectedChar === '\n' && key === 'Enter') {
+                        typedKey = '\n';
+                    }
+
+                    if (typedKey.length === 1 || typedKey === '\n') {
+                         if (typedKey !== expectedChar) {
+                            state.errors++;
+                        }
+                        state.typedText += typedKey;
+                    }
+                }
+                
+                renderLessonText();
+                if (state.typedText.length >= state.textToType.length) {
+                    endLesson();
+                }
+            }
+            
+            function startTimer() {
+                if (state.isStarted) return;
+                state.isStarted = true;
+                state.startTime = new Date();
+                state.timerInterval = setInterval(updateStats, 100);
+            }
+
+            function updateStats() {
+                if (state.isPaused) return;
+                const currentElapsed = new Date() - state.startTime;
+                const totalElapsedSeconds = (state.elapsedTime + currentElapsed) / 1000;
+                
+                const minutes = Math.floor(totalElapsedSeconds / 60).toString().padStart(2, '0');
+                const seconds = Math.floor(totalElapsedSeconds % 60).toString().padStart(2, '0');
+                timerEl.textContent = `${minutes}:${seconds}`;
+                
+                if (totalElapsedSeconds > 0) {
+                    const wpm = (state.typedText.length / 5) / (totalElapsedSeconds / 60);
+                    wpmEl.textContent = Math.round(wpm);
+                }
+                
+                const accuracy = state.typedText.length > 0 ? Math.max(0, Math.round(((state.typedText.length - state.errors) / state.typedText.length) * 100)) : 100;
+                accuracyEl.textContent = `${accuracy}%`;
+                errorsEl.textContent = state.errors;
+
+                if (state.totalChars > 0) {
+                    const progressPercentage = Math.round((state.typedText.length / state.totalChars) * 100);
+                    progressEl.textContent = `${progressPercentage}%`;
+                } else {
+                    progressEl.textContent = '0%';
+                }
+            }
+
+            function endLesson() {
+                state.isFinished = true;
+                clearInterval(state.timerInterval);
+                updateStats();
+
+                const totalElapsedMinutes = ((state.elapsedTime + (new Date() - state.startTime)) / 1000) / 60;
+                
+                const typedWords = state.textToType.split(/[\s\n]+/).filter(w => w.length > 0);
+                const originalWords = state.textToType.split(/[\s\n]+/).filter(w => w.length > 0);
+                
+                let correctWords = 0;
+                let incorrectWords = 0;
+                
+                originalWords.forEach((word, index) => {
+                    if (typedWords[index] === word) correctWords++;
+                    else incorrectWords++;
+                });
+
+                const accuracy = state.typedText.length > 0 ? Math.max(0, Math.round(((state.typedText.length - state.errors) / state.typedText.length) * 100)) : 100;
+                const netWPM = totalElapsedMinutes > 0 ? Math.round((state.typedText.length / 5) / totalElapsedMinutes) : 0;
+
+                finalWPM.textContent = `${netWPM}`;
+                finalAccuracy.textContent = `${accuracy}%`;
+                finalCorrect.textContent = correctWords;
+                finalIncorrect.textContent = incorrectWords;
+
+                if (accuracy >= 80) {
+                    resultTitle.textContent = "🎉 Hoàn thành xuất sắc! 🎉";
+                    resultMessage.textContent = "Bạn đã đạt yêu cầu. Hãy tiếp tục với bài học tiếp theo.";
+                    resultMessage.className = "text-lg mb-6 text-green-700";
+                    nextLessonBtn.disabled = false;
+                    nextLessonBtn.focus();
+                    nextLessonBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                } else {
+                    resultTitle.textContent = "🤔 Cần luyện tập thêm 🤔";
+                    resultMessage.textContent = `Độ chính xác của bạn là ${accuracy}%, chưa đạt 80%. Vui lòng làm lại bài này.`;
+                    resultMessage.className = "text-lg mb-6 text-red-700";
+                    tryAgainBtn.focus();
+                    nextLessonBtn.disabled = true;
+                    nextLessonBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                }
+
+                resultModal.classList.remove('hidden');
+                setTimeout(() => {
+                    resultModal.firstElementChild.classList.remove('scale-95', 'opacity-0');
+                }, 10);
+            }
+
+            function togglePause() {
+                if (!state.isStarted || state.isFinished) return;
+                
+                state.isPaused = !state.isPaused;
+                if (state.isPaused) {
+                    clearInterval(state.timerInterval);
+                    state.elapsedTime += new Date() - state.startTime;
+                    pauseBtn.innerHTML = icons.play;
+                    pauseBtn.classList.replace('bg-yellow-500', 'bg-green-500');
+                    pauseBtn.classList.replace('hover:bg-yellow-600', 'hover:bg-green-600');
+                    pauseOverlay.classList.remove('hidden');
+                } else {
+                    state.startTime = new Date();
+                    startTimer();
+                    pauseBtn.innerHTML = icons.pause;
+                    pauseBtn.classList.replace('bg-green-500', 'bg-yellow-500');
+                    pauseBtn.classList.replace('hover:bg-green-600', 'hover:bg-yellow-600');
+                    pauseOverlay.classList.add('hidden');
+                }
+                updateKeyboardHighlight();
+            }
+
+            function resetState() {
+                clearInterval(state.timerInterval);
+                state = {
+                    ...state,
+                    typedText: '',
+                    startTime: null,
+                    timerInterval: null,
+                    elapsedTime: 0,
+                    errors: 0,
+                    totalChars: 0,
+                    isStarted: false,
+                    isPaused: false,
+                    isFinished: false,
+                };
+                wpmEl.textContent = '0';
+                accuracyEl.textContent = '100%';
+                timerEl.textContent = '00:00';
+                errorsEl.textContent = '0';
+                progressEl.textContent = '0%';
+                pauseBtn.innerHTML = icons.pause;
+                pauseBtn.classList.replace('bg-green-500', 'bg-yellow-500');
+                pauseBtn.classList.replace('hover:bg-green-600', 'hover:bg-yellow-600');
+                pauseOverlay.classList.add('hidden');
+                resultModal.classList.add('hidden');
+                resultModal.firstElementChild.classList.add('scale-95', 'opacity-0');
+                fingerHintEl.textContent = '';
+            }
+
+            function goToNextLesson() {
+                const currentOptionIndex = lessonSelect.selectedIndex;
+                if (currentOptionIndex < lessonSelect.options.length - 1) {
+                    lessonSelect.selectedIndex = currentOptionIndex + 1;
+                    prepareLesson();
+                } else {
+                    alert("Chúc mừng! Bạn đã hoàn thành tất cả các bài học trong chương này.");
+                }
+            }
+            
+            function handleShiftKey(isDown) {
+                document.querySelectorAll('.key').forEach(keyEl => {
+                    const originalKey = keyEl.dataset.originalKey;
+                    if (originalKey && /^[a-zA-Z]$/.test(originalKey)) {
+                        const mainTextEl = keyEl.querySelector('.main-key-text');
+                        if (isDown) mainTextEl.textContent = originalKey.toUpperCase();
+                        else mainTextEl.textContent = originalKey.toLowerCase();
+                    }
+                });
+            }
+
+            function toggleFullscreen() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(err => {
+                        console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                    });
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            }
+
+            // --- Event Listeners ---
+            courseSelect.addEventListener('change', (e) => {
+                state.currentCourse = e.target.value;
+                populateChapters();
+            });
+            chapterSelect.addEventListener('change', (e) => {
+                state.currentChapter = e.target.value;
+                populateLessons();
+            });
+            lessonSelect.addEventListener('change', prepareLesson);
+            
+            window.addEventListener('keydown', (e) => {
+                if (!instructionModal.classList.contains('hidden')) {
+                    handleModalKeydown(e);
+                } else if (!resultModal.classList.contains('hidden')) {
+                    if (e.code === 'Enter') {
+                        e.preventDefault();
+                        if (!nextLessonBtn.disabled) {
+                            nextLessonBtn.click();
+                        } else {
+                            tryAgainBtn.click();
+                        }
+                    }
+                } else {
+                    handleKeyPress(e);
+                }
+
+                if (e.key === 'Shift') {
+                    handleShiftKey(true);
+                }
+            });
+            window.addEventListener('keyup', (e) => {
+                if (e.key === 'Shift') handleShiftKey(false);
+            });
+
+            document.addEventListener('fullscreenchange', () => {
+                if (document.fullscreenElement) {
+                    fullscreenBtn.innerHTML = icons.exitFullscreen;
+                } else {
+                    fullscreenBtn.innerHTML = icons.fullscreen;
+                }
+            });
+
+            startLessonBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                loadLesson(true);
+            });
+            tryAgainBtn.addEventListener('click', prepareLesson);
+            nextLessonBtn.addEventListener('click', goToNextLesson);
+            pauseBtn.addEventListener('click', togglePause);
+            restartBtn.addEventListener('click', prepareLesson);
+            fullscreenBtn.addEventListener('click', toggleFullscreen);
+            
+            toggleKeyboardBtn.addEventListener('click', () => {
+                isKeyboardGloballyHidden = !isKeyboardGloballyHidden;
+                keyboardContainer.classList.toggle('hidden', isKeyboardGloballyHidden);
+                toggleKeyboardBtn.textContent = isKeyboardGloballyHidden ? 'Hiện Bàn Phím' : 'Ẩn Bàn Phím';
+            });
+            
+            // Init
+            populateCourses();
+            createKeyboard();
+        });
+    </script>
+</body>
+</html>
